@@ -1,0 +1,37 @@
+graph LR
+  %% Client
+  Client[Client App<br/>(Web/Mobile)]
+
+  %% API Gateway
+  Client --> APIGateway[API Gateway]
+
+  %% Infrastructure
+  subgraph Infra
+    APIGateway --> ConfigServer[Config Server]
+    APIGateway --> Discovery[Service Discovery]
+  end
+
+  %% Flux métier via l’API Gateway
+  APIGateway --> PreFlight[Pre-flight Service]
+  APIGateway --> Search[Search Service]
+  APIGateway --> Inventory[Inventory Service]
+  APIGateway --> Reservation[Reservation Service]
+  APIGateway --> CheckIn[Check-in Service]
+  APIGateway --> PostFlight[Post-flight Service]
+
+  %% Bases de données par service métier
+  subgraph DBs
+    DB1[(DB Pre-flight)]
+    DB2[(DB Search)]
+    DB3[(DB Inventory)]
+    DB4[(DB Reservation)]
+    DB5[(DB Check-in)]
+    DB6[(DB Post-flight)]
+  end
+
+  PreFlight --> DB1
+  Search      --> DB2
+  Inventory   --> DB3
+  Reservation --> DB4
+  CheckIn     --> DB5
+  PostFlight  --> DB6
