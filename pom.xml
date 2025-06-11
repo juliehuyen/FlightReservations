@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>fr.joellejulie</groupId>
@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>flightReservations</name>
 	<description>DAUPHINE M2 MIAGE - Application web orientée microservices</description>
+	<packaging>pom</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -26,6 +27,25 @@
 		<tag/>
 		<url/>
 	</scm>
+
+	<modules>
+		<module>accounting-service</module>
+		<module>baggage-service</module>
+		<module>boarding-service</module>
+		<module>check-in-service</module>
+		<module>client-service</module>
+		<module>data-analysis-service</module>
+		<module>flight-service</module>
+		<module>inventory-service</module>
+		<module>notification-service</module>
+		<module>payment-service</module>
+		<module>pricing-service</module>
+		<module>reference-data-service</module>
+		<module>reservation-service</module>
+		<module>search-service</module>
+		<module>seating-service</module>
+	</modules>
+
 	<properties>
 		<java.version>21</java.version>
 	</properties>
