@@ -10,7 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>fr.joellejulie</groupId>
     <artifactId>accounting-service</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>accounting-service</name>
