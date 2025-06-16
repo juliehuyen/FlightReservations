@@ -1,15 +1,15 @@
 erDiagram
     FLIGHT {
-        UUID flightId PK
+        Long flightId PK
         String flightNumber
         DateTime departureTime
         DateTime arrivalTime
-        UUID aircraftId FK
+        Long aircraftId FK
         String departureAirportCode FK
         String arrivalAirportCode FK
     }
     AIRCRAFT {
-        UUID aircraftId PK
+        Long aircraftId PK
         String tailNumber
         String model
         int capacity
@@ -17,10 +17,10 @@ erDiagram
     FLIGHT }|--|| AIRCRAFT : operated_by
 
     TARIF {
-        UUID tarifId PK
+        Long tarifId PK
         Date date
         Decimal price
-        UUID flightId FK
+        Long flightId FK
         String currencyCode FK
     }
     FLIGHT ||--o{ TARIF : has
@@ -31,16 +31,16 @@ erDiagram
     CURRENCY ||--o{ TARIF : uses
 
     SEAT_INVENTORY {
-        UUID seatInventoryId PK
+        Long seatInventoryId PK
         Enum seatClass
         int totalSeats
         int availableSeats
-        UUID flightId FK
+        Long flightId FK
     }
     FLIGHT ||--o{ SEAT_INVENTORY : stocks
 
     CLIENT {
-        UUID clientId PK
+        Long clientId PK
         String firstName
         String lastName
         String email
@@ -50,69 +50,69 @@ erDiagram
     CLIENT ||--o{ RESERVATION : makes
 
     RESERVATION {
-        UUID reservationId PK
+        Long reservationId PK
         String reservationCode
         Enum status
         DateTime bookingDate
-        UUID flightId FK
-        UUID clientId FK
+        Long flightId FK
+        Long clientId FK
     }
     FLIGHT ||--o{ RESERVATION : booked_on
     CLIENT ||--o{ RESERVATION : made_by
 
     PASSENGER {
-        UUID passengerId PK
+        Long passengerId PK
         String firstName
         String lastName
         String email
         String passportNumber
-        UUID reservationId FK
+        Long reservationId FK
     }
     RESERVATION ||--o{ PASSENGER : for_reservation
 
     PAYMENT {
-        UUID paymentId PK
+        Long paymentId PK
         Decimal amount
         DateTime paymentDate
         Enum status
-        UUID reservationId FK
+        Long reservationId FK
         String currencyCode FK
     }
     RESERVATION ||--|| PAYMENT : pays
 
     CHECK_IN {
-        UUID checkInId PK
+        Long checkInId PK
         DateTime checkInTime
         String boardingPassNumber
         String seatNumber
         Enum status
-        UUID reservationId FK
+        Long reservationId FK
     }
     RESERVATION ||--|| CHECK_IN : checked_in
 
     BOARDING {
-        UUID boardingId PK
+        Long boardingId PK
         DateTime boardingTime
         String gateNumber
         Enum status
-        UUID checkInId FK
+        Long checkInId FK
     }
     CHECK_IN ||--|| BOARDING : boards
 
     SEATING {
-        UUID seatingId PK
+        Long seatingId PK
         String seatNumber
         DateTime assignedAt
         Enum seatClass
-        UUID passengerId FK
+        Long passengerId FK
     }
     PASSENGER ||--o{ SEATING : has_seating
 
     BAGGAGE {
-        UUID baggageId PK
+        Long baggageId PK
         Decimal weight
         String tagNumber
-        UUID passengerId FK
+        Long passengerId FK
     }
     PASSENGER ||--o{ BAGGAGE : has_baggage
 
@@ -121,7 +121,7 @@ erDiagram
         String name
     }
     CITY {
-        UUID cityId PK
+        Long cityId PK
         String name
         String countryCode FK
     }
@@ -130,42 +130,42 @@ erDiagram
     AIRPORT {
         String code PK
         String name
-        UUID cityId FK
+        Long cityId FK
     }
     CITY ||--o{ AIRPORT : has
     FLIGHT }|--|| AIRPORT : departs_from
     FLIGHT }|--|| AIRPORT : arrives_at
 
     ACCOUNTING_ENTRY {
-        UUID entryId PK
+        Long entryId PK
         DateTime entryDate
         Decimal amount
         String description
-        UUID flightId FK
+        Long flightId FK
         String currencyCode FK
     }
     FLIGHT ||--o{ ACCOUNTING_ENTRY : generates
 
     REVENUE_REPORT {
-        UUID reportId PK
+        Long reportId PK
         Date reportDate
         Decimal totalRevenue
         int totalReservations
     }
 
     DATA_ANALYSIS_REPORT {
-        UUID reportId PK
+        Long reportId PK
         String reportType
         DateTime generatedAt
         Text content
     }
 
     NOTIFICATION_LOG {
-        UUID logId PK
+        Long logId PK
         String eventType
         String recipient
         DateTime sentAt
         Enum status
-        UUID reservationId FK
+        Long reservationId FK
     }
     RESERVATION ||--o{ NOTIFICATION_LOG : triggers
