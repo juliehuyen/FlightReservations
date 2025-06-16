@@ -6,15 +6,17 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
-@Table(name = "aircraft")
+@Table(name = "airport")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Aircraft {
+public class Airport {
 
     @Id
     private Long id;
 
-    private String modelName;
+    private String code;
 
-    private int totalSeats;
+    private String name;
+
+    private Long cityId;
 
 }
