@@ -1,0 +1,171 @@
+erDiagram
+    FLIGHT {
+        UUID flightId PK
+        String flightNumber
+        DateTime departureTime
+        DateTime arrivalTime
+        UUID aircraftId FK
+        String departureAirportCode FK
+        String arrivalAirportCode FK
+    }
+    AIRCRAFT {
+        UUID aircraftId PK
+        String tailNumber
+        String model
+        int capacity
+    }
+    FLIGHT }|--|| AIRCRAFT : operated_by
+
+    TARIF {
+        UUID tarifId PK
+        Date date
+        Decimal price
+        UUID flightId FK
+        String currencyCode FK
+    }
+    FLIGHT ||--o{ TARIF : has
+    CURRENCY {
+        String code PK
+        String name
+    }
+    CURRENCY ||--o{ TARIF : uses
+
+    SEAT_INVENTORY {
+        UUID seatInventoryId PK
+        Enum seatClass
+        int totalSeats
+        int availableSeats
+        UUID flightId FK
+    }
+    FLIGHT ||--o{ SEAT_INVENTORY : stocks
+
+    CLIENT {
+        UUID clientId PK
+        String firstName
+        String lastName
+        String email
+        String phone
+        String loyaltyNumber
+    }
+    CLIENT ||--o{ RESERVATION : makes
+
+    RESERVATION {
+        UUID reservationId PK
+        String reservationCode
+        Enum status
+        DateTime bookingDate
+        UUID flightId FK
+        UUID clientId FK
+    }
+    FLIGHT ||--o{ RESERVATION : booked_on
+    CLIENT ||--o{ RESERVATION : made_by
+
+    PASSENGER {
+        UUID passengerId PK
+        String firstName
+        String lastName
+        String email
+        String passportNumber
+        UUID reservationId FK
+    }
+    RESERVATION ||--o{ PASSENGER : for_reservation
+
+    PAYMENT {
+        UUID paymentId PK
+        Decimal amount
+        DateTime paymentDate
+        Enum status
+        UUID reservationId FK
+        String currencyCode FK
+    }
+    RESERVATION ||--|| PAYMENT : pays
+
+    CHECK_IN {
+        UUID checkInId PK
+        DateTime checkInTime
+        String boardingPassNumber
+        String seatNumber
+        Enum status
+        UUID reservationId FK
+    }
+    RESERVATION ||--|| CHECK_IN : checked_in
+
+    BOARDING {
+        UUID boardingId PK
+        DateTime boardingTime
+        String gateNumber
+        Enum status
+        UUID checkInId FK
+    }
+    CHECK_IN ||--|| BOARDING : boards
+
+    SEATING {
+        UUID seatingId PK
+        String seatNumber
+        DateTime assignedAt
+        Enum seatClass
+        UUID passengerId FK
+    }
+    PASSENGER ||--o{ SEATING : has_seating
+
+    BAGGAGE {
+        UUID baggageId PK
+        Decimal weight
+        String tagNumber
+        UUID passengerId FK
+    }
+    PASSENGER ||--o{ BAGGAGE : has_baggage
+
+    COUNTRY {
+        String code PK
+        String name
+    }
+    CITY {
+        UUID cityId PK
+        String name
+        String countryCode FK
+    }
+    COUNTRY ||--o{ CITY : includes
+
+    AIRPORT {
+        String code PK
+        String name
+        UUID cityId FK
+    }
+    CITY ||--o{ AIRPORT : has
+    FLIGHT }|--|| AIRPORT : departs_from
+    FLIGHT }|--|| AIRPORT : arrives_at
+
+    ACCOUNTING_ENTRY {
+        UUID entryId PK
+        DateTime entryDate
+        Decimal amount
+        String description
+        UUID flightId FK
+        String currencyCode FK
+    }
+    FLIGHT ||--o{ ACCOUNTING_ENTRY : generates
+
+    REVENUE_REPORT {
+        UUID reportId PK
+        Date reportDate
+        Decimal totalRevenue
+        int totalReservations
+    }
+
+    DATA_ANALYSIS_REPORT {
+        UUID reportId PK
+        String reportType
+        DateTime generatedAt
+        Text content
+    }
+
+    NOTIFICATION_LOG {
+        UUID logId PK
+        String eventType
+        String recipient
+        DateTime sentAt
+        Enum status
+        UUID reservationId FK
+    }
+    RESERVATION ||--o{ NOTIFICATION_LOG : triggers

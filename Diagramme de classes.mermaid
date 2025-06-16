@@ -1,171 +1,377 @@
-erDiagram
-    FLIGHT {
-        UUID flightId PK
-        String flightNumber
-        DateTime departureTime
-        DateTime arrivalTime
-        UUID aircraftId FK
-        String departureAirportCode FK
-        String arrivalAirportCode FK
+classDiagram
+    %% Search Service
+    class SearchController {
+        +List<Flight> searchFlights(String departure, String destination, LocalDate date)
     }
-    AIRCRAFT {
-        UUID aircraftId PK
-        String tailNumber
-        String model
-        int capacity
+    class SearchService {
+        +List<Flight> searchFlights(String departure, String destination, LocalDate date)
     }
-    FLIGHT }|--|| AIRCRAFT : operated_by
+    class SearchRepository {
+        +List<Flight> findByCriteria(String departure, String destination, LocalDate date)
+    }
+    SearchController --> SearchService
+    SearchService --> SearchRepository
 
-    TARIF {
-        UUID tarifId PK
-        Date date
-        Decimal price
-        UUID flightId FK
-        String currencyCode FK
+    %% Flight Service
+    class FlightController {
+        +List<Flight> getAllFlights()
+        +Flight getFlightById(UUID id)
     }
-    FLIGHT ||--o{ TARIF : has
-    CURRENCY {
-        String code PK
-        String name
+    class FlightService {
+        +List<Flight> listFlights()
+        +Flight getFlightById(UUID id)
     }
-    CURRENCY ||--o{ TARIF : uses
+    class FlightRepository {
+        +List<Flight> findAll()
+        +Optional<Flight> findById(UUID id)
+    }
+    FlightController --> FlightService
+    FlightService --> FlightRepository
 
-    SEAT_INVENTORY {
-        UUID seatInventoryId PK
-        Enum seatClass
-        int totalSeats
-        int availableSeats
-        UUID flightId FK
+    %% Pricing Service
+    class PricingController {
+        +Float getPrice(UUID flightId, LocalDate date)
     }
-    FLIGHT ||--o{ SEAT_INVENTORY : stocks
+    class PricingService {
+        +Float calculatePrice(UUID flightId, LocalDate date)
+    }
+    class PricingRepository {
+        +Optional<Pricing> findByFlightAndDate(UUID flightId, LocalDate date)
+    }
+    PricingController --> PricingService
+    PricingService --> PricingRepository
 
-    CLIENT {
-        UUID clientId PK
-        String firstName
-        String lastName
-        String email
-        String phone
-        String loyaltyNumber
+    %% Inventory Service
+    class InventoryController {
+        +int getAvailableSeats(UUID flightId)
+        +void adjustInventory(UUID flightId, int delta)
     }
-    CLIENT ||--o{ RESERVATION : makes
+    class InventoryService {
+        +int checkAvailability(UUID flightId)
+        +void adjustInventory(UUID flightId, int delta)
+    }
+    class InventoryRepository {
+        +SeatInventory findByFlightId(UUID flightId)
+        +SeatInventory save(SeatInventory inv)
+    }
+    InventoryController --> InventoryService
+    InventoryService --> InventoryRepository
 
-    RESERVATION {
-        UUID reservationId PK
-        String reservationCode
-        Enum status
-        DateTime bookingDate
-        UUID flightId FK
-        UUID clientId FK
+    %% Reservation Service
+    class ReservationController {
+        +ReservationDto createReservation(ReservationRequest req)
+        +void cancelReservation(UUID id)
+        +Reservation getReservationById(UUID id)
+        +List<Reservation> getAllReservations()
     }
-    FLIGHT ||--o{ RESERVATION : booked_on
-    CLIENT ||--o{ RESERVATION : made_by
+    class ReservationService {
+        +ReservationDto createReservation(ReservationRequest req)
+        +void cancelReservation(UUID id)
+        +Reservation getReservationById(UUID id)
+        +List<Reservation> getAllReservations()
+    }
+    class ReservationRepository {
+        +Reservation save(Reservation r)
+        +Optional<Reservation> findById(UUID id)
+    }
+    ReservationController --> ReservationService
+    ReservationService --> ReservationRepository
 
-    PASSENGER {
-        UUID passengerId PK
-        String firstName
-        String lastName
-        String email
-        String passportNumber
-        UUID reservationId FK
+    %% Payment Service
+    class PaymentController {
+        +PaymentDto pay(UUID reservationId, PaymentDetails details)
     }
-    RESERVATION ||--o{ PASSENGER : for_reservation
+    class PaymentService {
+        +Payment processPayment(UUID reservationId, PaymentDetails details)
+    }
+    class PaymentRepository {
+        +Payment save(Payment p)
+    }
+    PaymentController --> PaymentService
+    PaymentService --> PaymentRepository
 
-    PAYMENT {
-        UUID paymentId PK
-        Decimal amount
-        DateTime paymentDate
-        Enum status
-        UUID reservationId FK
-        String currencyCode FK
+    %% Check-in Service
+    class CheckInController {
+        +CheckInDto checkIn(UUID reservationId)
     }
-    RESERVATION ||--|| PAYMENT : pays
+    class CheckInService {
+        +CheckIn performCheckIn(UUID reservationId)
+    }
+    class CheckInRepository {
+        +CheckIn save(CheckIn ci)
+    }
+    CheckInController --> CheckInService
+    CheckInService --> CheckInRepository
 
-    CHECK_IN {
-        UUID checkInId PK
-        DateTime checkInTime
-        String boardingPassNumber
-        String seatNumber
-        Enum status
-        UUID reservationId FK
+    %% Boarding Service
+    class BoardingController {
+        +BoardingDto board(UUID checkInId)
     }
-    RESERVATION ||--|| CHECK_IN : checked_in
+    class BoardingService {
+        +Boarding performBoarding(UUID checkInId)
+    }
+    class BoardingRepository {
+        +Boarding save(Boarding b)
+    }
+    BoardingController --> BoardingService
+    BoardingService --> BoardingRepository
 
-    BOARDING {
-        UUID boardingId PK
-        DateTime boardingTime
-        String gateNumber
-        Enum status
-        UUID checkInId FK
+    %% Seating Service
+    class SeatingController {
+        +SeatingDto assignSeat(UUID passengerId, String seatClass)
     }
-    CHECK_IN ||--|| BOARDING : boards
+    class SeatingService {
+        +Seating allocateSeat(UUID passengerId, String seatClass)
+    }
+    class SeatingRepository {
+        +Seating save(Seating s)
+    }
+    SeatingController --> SeatingService
+    SeatingService --> SeatingRepository
 
-    SEATING {
-        UUID seatingId PK
-        String seatNumber
-        DateTime assignedAt
-        Enum seatClass
-        UUID passengerId FK
+    %% Baggage Service
+    class BaggageController {
+        +BaggageDto registerBaggage(UUID passengerId, BaggageRequest req)
     }
-    PASSENGER ||--o{ SEATING : has_seating
+    class BaggageService {
+        +Baggage tagBaggage(UUID passengerId, BaggageRequest req)
+    }
+    class BaggageRepository {
+        +Baggage save(Baggage b)
+    }
+    BaggageController --> BaggageService
+    BaggageService --> BaggageRepository
 
-    BAGGAGE {
-        UUID baggageId PK
-        Decimal weight
-        String tagNumber
-        UUID passengerId FK
+    %% Client Service
+    class ClientController {
+        +ClientDto createClient(ClientRequest req)
+        +ClientDto getClient(UUID id)
     }
-    PASSENGER ||--o{ BAGGAGE : has_baggage
+    class ClientService {
+        +Client register(ClientRequest req)
+        +Client findById(UUID id)
+    }
+    class ClientRepository {
+        +Client save(Client c)
+        +Optional<Client> findById(UUID id)
+    }
+    ClientController --> ClientService
+    ClientService --> ClientRepository
 
-    COUNTRY {
-        String code PK
-        String name
+    %% Reference Data Service
+    class ReferenceController {
+        +List<Country> getCountries()
+        +List<City> getCities(String countryCode)
     }
-    CITY {
-        UUID cityId PK
-        String name
-        String countryCode FK
+    class ReferenceService {
+        +List<Country> listCountries()
+        +List<City> listCities(String countryCode)
     }
-    COUNTRY ||--o{ CITY : includes
+    class ReferenceRepository {
+        +List<Country> findAll()
+        +List<City> findByCountryCode(String code)
+    }
+    ReferenceController --> ReferenceService
+    ReferenceService --> ReferenceRepository
 
-    AIRPORT {
-        String code PK
-        String name
-        UUID cityId FK
+    %% Accounting Service
+    class AccountingController {
+        +List<AccountingEntry> getEntries(UUID flightId)
     }
-    CITY ||--o{ AIRPORT : has
-    FLIGHT }|--|| AIRPORT : departs_from
-    FLIGHT }|--|| AIRPORT : arrives_at
+    class AccountingService {
+        +void recordEntry(AccountingEntry entry)
+        +List<AccountingEntry> listEntries(UUID flightId)
+    }
+    class AccountingRepository {
+        +AccountingEntry save(AccountingEntry e)
+        +List<AccountingEntry> findByFlightId(UUID flightId)
+    }
+    AccountingController --> AccountingService
+    AccountingService --> AccountingRepository
 
-    ACCOUNTING_ENTRY {
-        UUID entryId PK
-        DateTime entryDate
-        Decimal amount
-        String description
-        UUID flightId FK
-        String currencyCode FK
+    %% Data Analysis Service
+    class DataAnalysisController {
+        +ReportDto generateReport(ReportRequest req)
     }
-    FLIGHT ||--o{ ACCOUNTING_ENTRY : generates
+    class DataAnalysisService {
+        +Report analyzeData(ReportRequest req)
+    }
+    class DataAnalysisRepository {
+        +Report save(Report r)
+    }
+    DataAnalysisController --> DataAnalysisService
+    DataAnalysisService --> DataAnalysisRepository
 
-    REVENUE_REPORT {
-        UUID reportId PK
-        Date reportDate
-        Decimal totalRevenue
-        int totalReservations
+    %% Notification Service
+    class NotificationController {
+        +void sendNotification(NotificationRequest req)
+    }
+    class NotificationService {
+        +void notifyCustomer(NotificationRequest req)
+    }
+    class NotificationRepository {
+        +NotificationLog save(NotificationLog log)
+    }
+    NotificationController --> NotificationService
+
+    %% Entities
+    class Flight {
+        +UUID flightId
+        +String flightNumber
+        +String departureAirport
+        +String arrivalAirport
+        +LocalDateTime departureTime
+        +LocalDateTime arrivalTime
+        +UUID aircraftId
     }
 
-    DATA_ANALYSIS_REPORT {
-        UUID reportId PK
-        String reportType
-        DateTime generatedAt
-        Text content
+    class Aircraft {
+        +UUID aircraftId
+	+String modelName
+        +int totalSeats
+    }
+    
+    class Pricing {
+        +UUID pricingId
+        +UUID flightId
+	+LocalDate date
+        +String departureCity
+        +String arrivalCity
+        +Float price
+    }
+    class SeatInventory {
+        +UUID seatInventoryId
+        +Flight flight
+        +int totalSeats
+        +int availableSeats
+    }
+    class Reservation {
+        +UUID reservationId
+        +UUID flightId
+        +UUID clientId
+        +LocalDateTime bookingDate
+    }
+    class Payment {
+        +UUID paymentId
+        +UUID reservationId
+        +Float amount
+        +LocalDateTime paymentDate
+    }
+    class CheckIn {
+        +UUID checkInId
+        +UUID reservationId
+        +LocalDateTime checkInTime
+        +String boardingPassNumber
+        +String seatNumber
+    }
+    class Boarding {
+        +UUID boardingId
+        +UUID checkInId
+        +LocalDateTime boardingTime
+        +String gateNumber
+    }
+    class Seating {
+        +UUID seatingId
+        +UUID reservationId
+        +String seatNumber
+    }
+    class Baggage {
+        +UUID baggageId
+        +UUID reservationId
+        +Float weight
+    }
+    class Client {
+        +UUID clientId
+        +String firstName
+        +String lastName
+        +String email
+        +String phone
+        +String passportNumber
+    }
+    class Country {
+        +String code
+        +String name
+    }
+    class City {
+        +UUID cityId
+        +String name
+        +String countryCode
+    }
+    class Airport {
+        +String code
+        +String name
+        +UUID cityId
+    }
+    class AccountingEntry {
+        +UUID entryId
+        +UUID flightId
+        +LocalDateTime entryDate
+        +Float amount
+        +String description
+    }
+    class DataAnalysisReport {
+        +UUID reportId
+        +String reportType
+        +LocalDateTime generatedAt
+        +String content
+    }
+    class NotificationLog {
+        +UUID logId
+        +UUID reservationId
+        +String eventType
+        +String recipient
+        +LocalDateTime sentAt
+        +String status
     }
 
-    NOTIFICATION_LOG {
-        UUID logId PK
-        String eventType
-        String recipient
-        DateTime sentAt
-        Enum status
-        UUID reservationId FK
-    }
-    RESERVATION ||--o{ NOTIFICATION_LOG : triggers
+    %% Link Entities to Services
+    FlightService --> Flight
+    FlightRepository --|> Flight
+    FlightService --> Aircraft
+    FlightRepository --|> Aircraft
+    FlightService --> Airport
+    FlightRepository --|> Airport
+
+    PricingService --> Pricing
+    PricingRepository --|> Pricing
+
+    InventoryService --> SeatInventory
+    InventoryRepository --|> SeatInventory
+
+    ReservationService --> Reservation
+    ReservationRepository --|> Reservation
+
+    ReservationService --> Passenger
+    ReservationRepository --|> Passenger
+
+    PaymentService --> Payment
+    PaymentRepository --|> Payment
+
+    CheckInService --> CheckIn
+    CheckInRepository --|> CheckIn
+
+    BoardingService --> Boarding
+    BoardingRepository --|> Boarding
+
+    SeatingService --> Seating
+    SeatingRepository --|> Seating
+
+    BaggageService --> Baggage
+    BaggageRepository --|> Baggage
+
+    ClientService --> Client
+    ClientRepository --|> Client
+
+    ReferenceService --> Country
+    ReferenceService --> City
+    ReferenceRepository --|> Country
+    ReferenceRepository --|> City
+
+    AccountingService --> AccountingEntry
+    AccountingRepository --|> AccountingEntry
+
+    DataAnalysisService --> DataAnalysisReport
+    DataAnalysisRepository --|> DataAnalysisReport
+
+    NotificationService --> NotificationLog
+    NotificationRepository --|> NotificationLog
