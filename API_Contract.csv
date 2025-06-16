@@ -1,0 +1,22 @@
+Service;Operation;Method;Path;Request Example;Description
+Search Service;Search Flights;GET;/api/search;departure, destination, date (YYYY-MM-DD) as query params;Retrieves a list of flights matching departure, destination, and date.
+Flight Service;List All Flights;GET;/api/flights;-;Returns all configured flights with their details.
+Flight Service;Get Flight Details;GET;/api/flights/{id};-;Fetches detailed information for a specific flight identified by its ID.
+Pricing Service;Get Price;GET;/api/pricing/{flightId};date (YYYY-MM-DD) as query param;Retrieves the price for a given flight and date.
+Inventory Service;Get Available Seats;GET;/api/inventory/{flightId};-;Returns the current number of available seats for the specified flight.
+Inventory Service;Update Available Seats;PATCH;/api/inventory/{flightId}/adjust;"{ ""delta"": -1 }";Adjusts the number of available seats for a given flight by applying the delta value (positive to release seats, negative to reserve seats).
+Reservation Service;Create Reservation;POST;/api/reservations;{ flightId, clientId };Books one and only one seat on a flight for a client.
+Reservation Service;Cancel Reservation;DELETE;/api/reservations/{reservationId};-;Cancels an existing reservation identified by its ID and releases the seats.
+Reservation Service;Get Reservation;GET;/api/reservations/{reservationId};-;Retrieves full details of a reservation.
+Payment Service;Pay Reservation;POST;/api/payments;{ reservationId, amount, cardInfo };Processes payment for a reservation.
+Check-in Service;Check-in Passenger;POST;/api/checkin;{ reservationId };Performs check-in for a reservation, issuing a boarding pass and seat assignment.
+Boarding Service;Board Passenger;POST;/api/boarding;{ checkInId };Registers the boarding event for a checked-in passenger at a specific gate.
+Seating Service;Assign Seat;POST;/api/seating;{ reservationId };Allocates a seat to a passenger.
+Baggage Service;Register Baggage;POST;/api/baggage;{ reservationId, weight };Records baggage items for a passenger of a reservation, issuing baggage tags.
+Client Service;Create Client;POST;/api/clients;{ firstName, lastName, email, phone, passportNumber };Registers a new client profile with personal and contact details.
+Client Service;Get Client;GET;/api/clients/{clientId};-;Fetches information for a specific client by their ID.
+Reference Data Service;List Countries;GET;/api/reference/countries;-;Provides a list of all supported countries.
+Reference Data Service;List Cities by Country;GET;/api/reference/countries/{code}/cities;-;Returns all cities for a specified country code.
+Accounting Service;List Accounting Entries;GET;/api/accounting/flights/{flightId};-;Lists all accounting entries for a given flight.
+Data Analysis Service;Generate Report;POST;/api/data-analysis/reports;{ fromDate, toDate, type };Generates a data analysis report for a specified date range and report type.
+Notification Service;Send Notification;POST;/api/notifications;{ reservationId, type };Sends a notification (email/SMS) for a specified reservation event.
