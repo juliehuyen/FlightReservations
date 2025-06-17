@@ -9,11 +9,8 @@ import lombok.Getter;
 public class AirportDto {
 
     private Long id;
-
     private String code;
-
     private String name;
-
     private Long cityId;
 
     public static AirportDto mapToDTO(Airport airport) {

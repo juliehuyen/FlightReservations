@@ -12,11 +12,8 @@ public class Airport {
 
     @Id
     private Long id;
-
     private String code;
-
     private String name;
-
     private Long cityId;
 
 }

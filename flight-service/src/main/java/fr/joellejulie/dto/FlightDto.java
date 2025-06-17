@@ -11,15 +11,10 @@ import java.time.LocalDateTime;
 public class FlightDto {
 
     private Long id;
-
     private String departureAirport;
-
     private String arrivalAirport;
-
     private LocalDateTime departureTime;
-
     private LocalDateTime arrivalTime;
-
     private Long aircraftId;
 
     public static FlightDto mapToDTO(Flight flight) {

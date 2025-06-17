@@ -9,9 +9,7 @@ import lombok.Getter;
 public class AircraftDto {
 
     private Long id;
-
     private String modelName;
-
     private int totalSeats;
 
     public static AircraftDto mapToDTO(Aircraft aircraft) {

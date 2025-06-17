@@ -14,15 +14,10 @@ public class Flight {
 
     @Id
     private Long id;
-
     private String departureAirport;
-
     private String arrivalAirport;
-
     private LocalDateTime departureTime;
-
     private LocalDateTime arrivalTime;
-
     private Long aircraftId;
 
 }

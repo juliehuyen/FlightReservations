@@ -12,9 +12,7 @@ public class Aircraft {
 
     @Id
     private Long id;
-
     private String modelName;
-
     private int totalSeats;
 
 }
