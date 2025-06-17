@@ -36,7 +36,7 @@ classDiagram
         +Float getPrice(Long flightId, LocalDate date)
     }
     class PricingRepository {
-        +Optional<Pricing> findByFlightAndDate(Long flightId, LocalDate date)
+        +Optional<Pricing> findByFlightIdAndDate(Long flightId, LocalDate date)
     }
     PricingController --> PricingService
     PricingService --> PricingRepository
