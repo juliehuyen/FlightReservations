@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface InventoryRepository extends JpaRepository<SeatInventory, Long> {
 
     SeatInventory findByFlightId(Long flightId);
+    SeatInventory save(SeatInventory seatInventory);
 
 }

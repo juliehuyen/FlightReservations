@@ -1,5 +1,6 @@
 package fr.joellejulie.service.impl;
 
+import fr.joellejulie.entity.SeatInventory;
 import fr.joellejulie.repository.InventoryRepository;
 import fr.joellejulie.service.InventoryService;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public void updateInventory(Long flightId, int delta) {
-        inventoryRepository.findByFlightId(flightId).setAvailableSeats(inventoryRepository.findByFlightId(flightId).getAvailableSeats() + delta);
+        SeatInventory seatInventory = inventoryRepository.findByFlightId(flightId);
+        int newAvailable = seatInventory.getAvailableSeats() + delta;
+        seatInventory.setAvailableSeats(newAvailable);
+        inventoryRepository.save(seatInventory);
     }
 }
