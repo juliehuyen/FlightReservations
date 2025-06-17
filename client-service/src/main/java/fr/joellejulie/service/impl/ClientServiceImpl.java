@@ -7,6 +7,8 @@ import fr.joellejulie.service.ClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
@@ -28,6 +30,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client findById(Long id) {
         return clientRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Client> findAll() {
+        return clientRepository.findAll();
     }
 
 }

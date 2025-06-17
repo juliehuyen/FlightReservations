@@ -8,6 +8,9 @@ import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/v1/clients")
 @AllArgsConstructor
@@ -23,6 +26,16 @@ public class ClientController {
         }
         return ResponseEntity.ok(ClientDto.mapToDTO(client));
     }
+
+    @GetMapping
+    public ResponseEntity<List<ClientDto>> getAllClients() {
+        List<Client> clients = clientService.findAll();
+        List<ClientDto> clientDtos = clients.stream()
+                .map(ClientDto::mapToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(clientDtos);
+    }
+
 
     @PostMapping
     public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto createClientRequest) {

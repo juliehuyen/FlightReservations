@@ -1,5 +1,7 @@
 package fr.joellejulie.service.impl;
 
+import fr.joellejulie.client.FlightClient;
+import fr.joellejulie.dto.FlightDto;
 import fr.joellejulie.entity.SeatInventory;
 import fr.joellejulie.repository.InventoryRepository;
 import fr.joellejulie.service.InventoryService;
@@ -12,16 +14,21 @@ public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
 
+    private final FlightClient flightClient;
+
     @Override
     public int getAvailableSeats(Long flightId) {
-        return inventoryRepository.findByFlightId(flightId).getAvailableSeats();
+        FlightDto flight = flightClient.getFlightById(flightId);
+        return inventoryRepository.findByFlightId(flight.getId()).getAvailableSeats();
     }
 
     @Override
-    public void updateInventory(Long flightId, int delta) {
-        SeatInventory seatInventory = inventoryRepository.findByFlightId(flightId);
+    public int updateInventory(Long flightId, int delta) {
+        FlightDto flight = flightClient.getFlightById(flightId);
+        SeatInventory seatInventory = inventoryRepository.findByFlightId(flight.getId());
         int newAvailable = seatInventory.getAvailableSeats() + delta;
         seatInventory.setAvailableSeats(newAvailable);
         inventoryRepository.save(seatInventory);
+        return newAvailable;
     }
 }

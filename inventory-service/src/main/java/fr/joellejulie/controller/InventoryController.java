@@ -2,10 +2,7 @@ package fr.joellejulie.controller;
 
 import fr.joellejulie.service.InventoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/inventory")
@@ -14,14 +11,14 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    @GetMapping("/{flightId}")
+    @GetMapping("flights/{flightId}")
     public int getAvailableSeats(@PathVariable Long flightId) {
         return inventoryService.getAvailableSeats(flightId);
     }
 
-    @GetMapping("/{flightId}/{delta}")
-    public void updateInventory(@PathVariable Long flightId, @PathVariable int delta) {
-        inventoryService.updateInventory(flightId, delta);
+    @GetMapping("/{flightId}")
+    public int updateInventory(@PathVariable Long flightId, @RequestParam int delta) {
+        return inventoryService.updateInventory(flightId, delta);
     }
 
 }
