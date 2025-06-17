@@ -44,15 +44,14 @@ classDiagram
     %% Inventory Service
     class InventoryController {
         +int getAvailableSeats(Long flightId)
-        +void adjustInventory(Long flightId, int delta)
+        +void updateInventory(Long flightId, int delta)
     }
     class InventoryService {
-        +int checkAvailability(Long flightId)
-        +void adjustInventory(Long flightId, int delta)
+        +int getAvailableSeats(Long flightId)
+        +void updateInventory(Long flightId, int delta)
     }
     class InventoryRepository {
         +SeatInventory findByFlightId(Long flightId)
-        +SeatInventory save(SeatInventory inv)
     }
     InventoryController --> InventoryService
     InventoryService --> InventoryRepository
@@ -238,7 +237,7 @@ classDiagram
     }
     class SeatInventory {
         +Long seatInventoryId
-        +Flight flight
+        +Long FlightId
         +int totalSeats
         +int availableSeats
     }
