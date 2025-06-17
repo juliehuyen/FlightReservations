@@ -3,6 +3,7 @@ package fr.joellejulie.controller;
 import fr.joellejulie.dto.FlightDto;
 import fr.joellejulie.entity.Flight;
 import fr.joellejulie.service.FlightService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/flights")
+@AllArgsConstructor
 public class FlightController {
 
     private final FlightService flightService;
-
-    public FlightController(FlightService flightService) {
-        this.flightService = flightService;
-    }
 
     @GetMapping
     public ResponseEntity<List<FlightDto>> getAllFlights() {
