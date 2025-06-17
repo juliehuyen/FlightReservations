@@ -1,7 +1,37 @@
 package fr.joellejulie.controller;
 
+import fr.joellejulie.dto.FlightDto;
+import fr.joellejulie.entity.Flight;
+import fr.joellejulie.service.FlightService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/v1/flights")
+@AllArgsConstructor
 public class FlightController {
+
+    private final FlightService flightService;
+
+    @GetMapping
+    public ResponseEntity<List<FlightDto>> getAllFlights() {
+        List<Flight> flights = flightService.findAll();
+        return ResponseEntity.ok(flights.stream().map(FlightDto::mapToDTO).toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FlightDto> getFlightById(@PathVariable Long id) {
+        Flight flight = flightService.findById(id);
+        if (flight == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(FlightDto.mapToDTO(flight));
+    }
+
 }

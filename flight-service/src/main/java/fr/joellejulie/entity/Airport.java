@@ -6,16 +6,14 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
-@Table(name = "client")
+@Table(name = "airport")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Client {
+public class Airport {
 
     @Id
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String passportNumber;
+    private String code;
+    private String name;
+    private Long cityId;
 
 }

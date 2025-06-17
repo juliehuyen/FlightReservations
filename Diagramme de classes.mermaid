@@ -15,44 +15,44 @@ classDiagram
     %% Flight Service
     class FlightController {
         +List<Flight> getAllFlights()
-        +Flight getFlightById(UUID id)
+        +Flight getFlightById(Long id)
     }
     class FlightService {
-        +List<Flight> listFlights()
-        +Flight getFlightById(UUID id)
+        +List<Flight> findAll()
+        +Flight findById(Long id)
     }
     class FlightRepository {
         +List<Flight> findAll()
-        +Optional<Flight> findById(UUID id)
+        +Optional<Flight> findById(Long id)
     }
     FlightController --> FlightService
     FlightService --> FlightRepository
 
     %% Pricing Service
     class PricingController {
-        +Float getPrice(UUID flightId, LocalDate date)
+        +Float getPrice(Long flightId, LocalDate date)
     }
     class PricingService {
-        +Float calculatePrice(UUID flightId, LocalDate date)
+        +Float getPrice(Long flightId, LocalDate date)
     }
     class PricingRepository {
-        +Optional<Pricing> findByFlightAndDate(UUID flightId, LocalDate date)
+        +Optional<Pricing> findByFlightIdAndDate(Long flightId, LocalDate date)
     }
     PricingController --> PricingService
     PricingService --> PricingRepository
 
     %% Inventory Service
     class InventoryController {
-        +int getAvailableSeats(UUID flightId)
-        +void adjustInventory(UUID flightId, int delta)
+        +int getAvailableSeats(Long flightId)
+        +void updateInventory(Long flightId, int delta)
     }
     class InventoryService {
-        +int checkAvailability(UUID flightId)
-        +void adjustInventory(UUID flightId, int delta)
+        +int getAvailableSeats(Long flightId)
+        +void updateInventory(Long flightId, int delta)
     }
     class InventoryRepository {
-        +SeatInventory findByFlightId(UUID flightId)
-        +SeatInventory save(SeatInventory inv)
+        +SeatInventory findByFlightId(Long flightId)
+        +SeatInventory save(SeatInventory seatInventory)
     }
     InventoryController --> InventoryService
     InventoryService --> InventoryRepository
@@ -60,29 +60,29 @@ classDiagram
     %% Reservation Service
     class ReservationController {
         +ReservationDto createReservation(ReservationRequest req)
-        +void cancelReservation(UUID id)
-        +Reservation getReservationById(UUID id)
+        +void cancelReservation(Long id)
+        +Reservation getReservationById(Long id)
         +List<Reservation> getAllReservations()
     }
     class ReservationService {
         +ReservationDto createReservation(ReservationRequest req)
-        +void cancelReservation(UUID id)
-        +Reservation getReservationById(UUID id)
+        +void cancelReservation(Long id)
+        +Reservation getReservationById(Long id)
         +List<Reservation> getAllReservations()
     }
     class ReservationRepository {
         +Reservation save(Reservation r)
-        +Optional<Reservation> findById(UUID id)
+        +Optional<Reservation> findById(Long id)
     }
     ReservationController --> ReservationService
     ReservationService --> ReservationRepository
 
     %% Payment Service
     class PaymentController {
-        +PaymentDto pay(UUID reservationId, PaymentDetails details)
+        +PaymentDto pay(Long reservationId, PaymentDetails details)
     }
     class PaymentService {
-        +Payment processPayment(UUID reservationId, PaymentDetails details)
+        +Payment processPayment(Long reservationId, PaymentDetails details)
     }
     class PaymentRepository {
         +Payment save(Payment p)
@@ -92,10 +92,10 @@ classDiagram
 
     %% Check-in Service
     class CheckInController {
-        +CheckInDto checkIn(UUID reservationId)
+        +CheckInDto checkIn(Long reservationId)
     }
     class CheckInService {
-        +CheckIn performCheckIn(UUID reservationId)
+        +CheckIn performCheckIn(Long reservationId)
     }
     class CheckInRepository {
         +CheckIn save(CheckIn ci)
@@ -105,10 +105,10 @@ classDiagram
 
     %% Boarding Service
     class BoardingController {
-        +BoardingDto board(UUID checkInId)
+        +BoardingDto board(Long checkInId)
     }
     class BoardingService {
-        +Boarding performBoarding(UUID checkInId)
+        +Boarding performBoarding(Long checkInId)
     }
     class BoardingRepository {
         +Boarding save(Boarding b)
@@ -118,10 +118,10 @@ classDiagram
 
     %% Seating Service
     class SeatingController {
-        +SeatingDto assignSeat(UUID passengerId, String seatClass)
+        +SeatingDto assignSeat(Long passengerId, String seatClass)
     }
     class SeatingService {
-        +Seating allocateSeat(UUID passengerId, String seatClass)
+        +Seating allocateSeat(Long passengerId, String seatClass)
     }
     class SeatingRepository {
         +Seating save(Seating s)
@@ -131,10 +131,10 @@ classDiagram
 
     %% Baggage Service
     class BaggageController {
-        +BaggageDto registerBaggage(UUID passengerId, BaggageRequest req)
+        +BaggageDto registerBaggage(Long passengerId, BaggageRequest req)
     }
     class BaggageService {
-        +Baggage tagBaggage(UUID passengerId, BaggageRequest req)
+        +Baggage tagBaggage(Long passengerId, BaggageRequest req)
     }
     class BaggageRepository {
         +Baggage save(Baggage b)
@@ -144,16 +144,17 @@ classDiagram
 
     %% Client Service
     class ClientController {
-        +ClientDto createClient(ClientRequest req)
-        +ClientDto getClient(UUID id)
+        +ClientDto createClient(ClientDto createClientRequest)
+        +ClientDto getClientById(Long id)
+        +List<ClientDto> getAllClients()
     }
     class ClientService {
-        +Client register(ClientRequest req)
-        +Client findById(UUID id)
+        +Client createClient(ClientDto createClientRequest)
+        +Client findById(Long id)
+        +List<Client> findAll()
     }
     class ClientRepository {
-        +Client save(Client c)
-        +Optional<Client> findById(UUID id)
+        +Optional<Client> findClientById(Long id)
     }
     ClientController --> ClientService
     ClientService --> ClientRepository
@@ -176,15 +177,15 @@ classDiagram
 
     %% Accounting Service
     class AccountingController {
-        +List<AccountingEntry> getEntries(UUID flightId)
+        +List<AccountingEntry> getEntries(Long flightId)
     }
     class AccountingService {
         +void recordEntry(AccountingEntry entry)
-        +List<AccountingEntry> listEntries(UUID flightId)
+        +List<AccountingEntry> listEntries(Long flightId)
     }
     class AccountingRepository {
         +AccountingEntry save(AccountingEntry e)
-        +List<AccountingEntry> findByFlightId(UUID flightId)
+        +List<AccountingEntry> findByFlightId(Long flightId)
     }
     AccountingController --> AccountingService
     AccountingService --> AccountingRepository
@@ -216,72 +217,69 @@ classDiagram
 
     %% Entities
     class Flight {
-        +UUID flightId
-        +String flightNumber
+        +Long flightId
         +String departureAirport
         +String arrivalAirport
         +LocalDateTime departureTime
         +LocalDateTime arrivalTime
-        +UUID aircraftId
+        +Long aircraftId
     }
 
     class Aircraft {
-        +UUID aircraftId
+        +Long aircraftId
 	+String modelName
         +int totalSeats
     }
     
     class Pricing {
-        +UUID pricingId
-        +UUID flightId
-	+LocalDate date
-        +String departureCity
-        +String arrivalCity
+        +Long pricingId
+        +Long flightId
+	    +LocalDate date
         +Float price
     }
     class SeatInventory {
-        +UUID seatInventoryId
-        +Flight flight
+        +Long seatInventoryId
+        +Long FlightId
         +int totalSeats
         +int availableSeats
     }
     class Reservation {
-        +UUID reservationId
-        +UUID flightId
-        +UUID clientId
-        +LocalDateTime bookingDate
+        +Long reservationId
+        +Long flightId
+        +Long clientId
+        +LocalDateTime reservationDate
     }
     class Payment {
-        +UUID paymentId
-        +UUID reservationId
+        +Long paymentId
+        +Long reservationId
         +Float amount
         +LocalDateTime paymentDate
     }
     class CheckIn {
-        +UUID checkInId
-        +UUID reservationId
+        +Long checkInId
+        +Long reservationId
         +LocalDateTime checkInTime
         +String boardingPassNumber
         +String seatNumber
     }
     class Boarding {
-        +UUID boardingId
-        +UUID checkInId
+        +Long boardingId
+        +Long checkInId
         +LocalDateTime boardingTime
         +String gateNumber
     }
     class Seating {
-        +UUID seatingId
-        +UUID reservationId
+        +Long seatingId
+        +Long reservationId
         +String seatNumber
     }
     class Baggage {
-        +UUID baggageId
-        +UUID reservationId
+        +Long baggageId
+        +Long reservationId
         +Float weight
     }
     class Client {
-        +UUID clientId
+        +Long clientId
         +String firstName
         +String lastName
         +String email
@@ -293,31 +291,32 @@ classDiagram
         +String name
     }
     class City {
-        +UUID cityId
+        +Long cityId
         +String name
         +String countryCode
     }
     class Airport {
-        +String code
+        +Long id
+        +Strong code
         +String name
-        +UUID cityId
+        +Long cityId
     }
     class AccountingEntry {
-        +UUID entryId
-        +UUID flightId
+        +Long entryId
+        +Long flightId
         +LocalDateTime entryDate
         +Float amount
         +String description
     }
     class DataAnalysisReport {
-        +UUID reportId
+        +Long reportId
         +String reportType
         +LocalDateTime generatedAt
         +String content
     }
     class NotificationLog {
-        +UUID logId
-        +UUID reservationId
+        +Long logId
+        +Long reservationId
         +String eventType
         +String recipient
         +LocalDateTime sentAt
