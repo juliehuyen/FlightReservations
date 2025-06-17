@@ -5,6 +5,7 @@ import fr.joellejulie.entity.Flight;
 import fr.joellejulie.service.FlightService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class FlightController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FlightDto> getFlightById(Long id) {
+    public ResponseEntity<FlightDto> getFlightById(@PathVariable Long id) {
         Flight flight = flightService.findById(id);
         if (flight == null) {
             return ResponseEntity.notFound().build();
