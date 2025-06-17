@@ -1,3 +1,4 @@
 # Maven build folders
 **/target/
 */target
+**/**/target
