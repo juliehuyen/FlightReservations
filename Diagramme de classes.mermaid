@@ -33,7 +33,7 @@ classDiagram
         +Float getPrice(Long flightId, LocalDate date)
     }
     class PricingService {
-        +Float calculatePrice(Long flightId, LocalDate date)
+        +Float getPrice(Long flightId, LocalDate date)
     }
     class PricingRepository {
         +Optional<Pricing> findByFlightAndDate(Long flightId, LocalDate date)
