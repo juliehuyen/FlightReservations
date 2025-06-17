@@ -146,13 +146,14 @@ classDiagram
     class ClientController {
         +ClientDto createClient(ClientDto createClientRequest)
         +ClientDto getClientById(Long id)
+        +List<ClientDto> getAllClients()
     }
     class ClientService {
         +Client createClient(ClientDto createClientRequest)
         +Client findById(Long id)
+        +List<Client> findAll()
     }
     class ClientRepository {
-        +Client save(Client c)
         +Optional<Client> findClientById(Long id)
     }
     ClientController --> ClientService
