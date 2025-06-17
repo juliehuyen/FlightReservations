@@ -18,8 +18,8 @@ classDiagram
         +Flight getFlightById(Long id)
     }
     class FlightService {
-        +List<Flight> listFlights()
-        +Flight getFlightById(Long id)
+        +List<Flight> findAll()
+        +Flight findById(Long id)
     }
     class FlightRepository {
         +List<Flight> findAll()
@@ -297,7 +297,8 @@ classDiagram
         +String countryCode
     }
     class Airport {
-        +String code
+        +Long id
+        +Strong code
         +String name
         +Long cityId
     }
