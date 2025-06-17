@@ -52,6 +52,7 @@ classDiagram
     }
     class InventoryRepository {
         +SeatInventory findByFlightId(Long flightId)
+        +SeatInventory save(SeatInventory seatInventory)
     }
     InventoryController --> InventoryService
     InventoryService --> InventoryRepository
@@ -143,16 +144,16 @@ classDiagram
 
     %% Client Service
     class ClientController {
-        +ClientDto createClient(ClientRequest req)
-        +ClientDto getClient(Long id)
+        +ClientDto createClient(ClientDto createClientRequest)
+        +ClientDto getClientById(Long id)
     }
     class ClientService {
-        +Client register(ClientRequest req)
+        +Client createClient(ClientDto createClientRequest)
         +Client findById(Long id)
     }
     class ClientRepository {
         +Client save(Client c)
-        +Optional<Client> findById(Long id)
+        +Optional<Client> findClientById(Long id)
     }
     ClientController --> ClientService
     ClientService --> ClientRepository
@@ -245,7 +246,7 @@ classDiagram
         +Long reservationId
         +Long flightId
         +Long clientId
-        +LocalDateTime bookingDate
+        +LocalDateTime reservationDate
     }
     class Payment {
         +Long paymentId
