@@ -1,0 +1,30 @@
+package fr.joellejulie;
+
+import fr.joellejulie.entity.Reservation;
+import fr.joellejulie.repository.ReservationRepository;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Component
+public class DataInitializer {
+
+    public DataInitializer(ReservationRepository reservationRepository) {
+        reservationRepository.saveAll(List.of(
+                Reservation.builder()
+                        .id(1L)
+                        .flightId(1L)
+                        .clientId(1L)
+                        .reservationDate(LocalDateTime.of(2023, 1, 1, 10, 0))
+                        .build(),
+                Reservation.builder()
+                        .id(2L)
+                        .flightId(2L)
+                        .clientId(2L)
+                        .reservationDate(LocalDateTime.of(2023, 1, 1, 11, 0))
+                        .build()
+        ));
+    }
+
+}
