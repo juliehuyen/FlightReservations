@@ -16,6 +16,9 @@ public class Reservation {
     private Long id;
     private Long flightId;
     private Long clientId;
+    private String clientFirstName;
+    private String clientLastName;
+    private String passportNumber;
     private LocalDateTime reservationDate;
 
 }
