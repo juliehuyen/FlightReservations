@@ -65,7 +65,7 @@ classDiagram
         +List<Reservation> getAllReservations()
     }
     class ReservationService {
-        +ReservationDto createReservation(ReservationRequest req)
+        +Reservation createReservation(ReservationRequest reservationRequest)
         +void cancelReservation(Long id)
         +Reservation getReservationById(Long id)
         +List<Reservation> getAllReservations()

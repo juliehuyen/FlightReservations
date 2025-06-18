@@ -8,6 +8,7 @@ import java.util.List;
 
 @Component
 public class DataInitializer {
+
     public DataInitializer(ClientRepository clientRepository) {
         clientRepository.saveAll(List.of(
                 Client.builder()
@@ -29,4 +30,5 @@ public class DataInitializer {
                         .build()
         ));
     }
+
 }

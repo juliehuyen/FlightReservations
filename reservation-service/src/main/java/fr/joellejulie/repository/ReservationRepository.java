@@ -8,8 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-
-    Reservation save(Reservation reservation);
-    Optional<Reservation> findById(Long id);
-
 }
