@@ -17,7 +17,7 @@ public class DataInitializer {
                         .id(1L)
                         .flightId(1L)
                         .clientId(1L)
-                        .reservationDate(LocalDateTime.of(2023, 1, 1, 10, 0))
+                        .reservationDate(LocalDateTime.now())
                         .build(),
                 Reservation.builder()
                         .id(2L)
