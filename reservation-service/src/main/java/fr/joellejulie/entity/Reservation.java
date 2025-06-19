@@ -19,6 +19,7 @@ public class Reservation {
     private String clientFirstName;
     private String clientLastName;
     private String passportNumber;
+    private String baggageId;
     private LocalDateTime reservationDate;
 
 }
