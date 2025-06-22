@@ -74,9 +74,8 @@ public class CheckInServiceImpl implements fr.joellejulie.service.CheckInService
 
     @Override
     public CheckIn findByReservationId(Long reservationId) {
-        //TODO implémenter le cas où la réservation n'existe pas
         return checkInRepository.findByReservationId(reservationId)
-                .orElse(null); // Retourne null si aucun CheckIn trouvé
+                .orElseThrow(() -> new IllegalArgumentException("CheckIn with Reservation ID " + reservationId + " does not exist"));
     }
 
     @Override
