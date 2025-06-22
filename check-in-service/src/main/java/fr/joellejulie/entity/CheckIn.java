@@ -1,6 +1,8 @@
 package fr.joellejulie.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
@@ -18,6 +20,6 @@ public class CheckIn {
     private Long reservationId;
     private LocalDateTime checkInTime;
     private String boardingPassNumber;
-    private Long seatNumber;
+    private String seatNumber;
     private Long baggageId;
 }
