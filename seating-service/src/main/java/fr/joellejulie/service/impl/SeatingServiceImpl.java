@@ -1,7 +1,9 @@
 package fr.joellejulie.service.impl;
 
+import fr.joellejulie.client.CheckInClient;
 import fr.joellejulie.client.FlightClient;
 import fr.joellejulie.client.InventoryClient;
+import fr.joellejulie.dto.CheckInDto;
 import fr.joellejulie.dto.FlightDto;
 import fr.joellejulie.entity.Seating;
 import fr.joellejulie.repository.SeatingRepository;
@@ -23,9 +25,12 @@ public class SeatingServiceImpl implements SeatingService {
 
     private final FlightClient flightClient;
 
+    private final CheckInClient checkInClient;
+
     @Override
-    public Seating allocateSeat(String seatNumber, Long flightId) {
+    public Seating allocateSeat(Long flightId,String seatNumber, Long checkInId) {
         FlightDto flight = flightClient.getFlightById(flightId);
+        CheckInDto checkIn = checkInClient.getCheckInById(checkInId);
 
         if(inventoryClient.getAvailableSeats(flight.getId()) <= 0) {
             throw new IllegalStateException("No available seats for flight " + flight.getId());
@@ -37,9 +42,16 @@ public class SeatingServiceImpl implements SeatingService {
             );
         }
 
+        if (checkIn == null) {
+            throw new IllegalStateException(
+                    "Check-in with ID " + checkInId + " does not exist"
+            );
+        }
+
         Seating seating = Seating.builder()
                 .flightId(flight.getId())
                 .seatNumber(seatNumber)
+                .checkInId(checkInId)
                 .build();
 
         inventoryClient.updateInventory(flight.getId(),-1);

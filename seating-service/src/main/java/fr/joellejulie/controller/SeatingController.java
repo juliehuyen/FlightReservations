@@ -17,9 +17,9 @@ public class SeatingController {
 
     private final SeatingService seatingService;
 
-    @PostMapping("{seatNumber}/flights/{flightId}")
-    public ResponseEntity<SeatingDto> assignSeat(@PathVariable String seatNumber,@PathVariable Long flightId){
-        Seating seating = seatingService.allocateSeat(seatNumber,flightId);
+    @PostMapping("/flights/{flightId}")
+    public ResponseEntity<SeatingDto> assignSeat(@PathVariable Long flightId, @RequestParam Long checkInId,@RequestParam String seatNumber){
+        Seating seating = seatingService.allocateSeat(flightId,seatNumber, checkInId);
         return ResponseEntity.ok(SeatingDto.mapToDTO(seating));
     }
 
