@@ -6,7 +6,7 @@ import fr.joellejulie.service.FlightService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,7 +26,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<Flight> searchFlights(String departure, String destination, LocalDate date) {
+    public List<Flight> searchFlights(String departure, String destination, LocalDateTime date) {
         return flightRepository.searchFlights(departure, destination, date);
     }
 
