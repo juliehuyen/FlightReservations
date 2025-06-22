@@ -23,12 +23,13 @@ public class PricingServiceImpl implements PricingService {
     @Override
     public Float getPrice(Long flightId, LocalDate date) {
         FlightDto flight = flightClient.getFlightById(flightId);
-        Pricing pricing = pricingRepository.findByFlightIdAndDate(flight.getId(), date).orElse(null);
-        if (pricing == null) {
-            return -1f;
-        } else {
-            return pricing.getPrice();
+        if (flight == null) {
+            throw new IllegalArgumentException("Flight not found with id: " + flightId);
         }
+        Pricing pricing = pricingRepository.findByFlightIdAndDate(flight.getId(), date).orElseThrow(() ->
+            new IllegalArgumentException("Pricing not found for flight id: " + flightId + " on date: " + date)
+        );
+        return pricing.getPrice();
     }
 
     @Override
