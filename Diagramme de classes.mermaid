@@ -218,16 +218,16 @@ classDiagram
     %% Entities
     class Flight {
         +Long flightId
-        +String departureAirport
-        +String arrivalAirport
         +LocalDateTime departureTime
         +LocalDateTime arrivalTime
-        +Long aircraftId
+        +Long referenceId
+        +String referenceId.airport.departure
+        +String referenceId.airport.arrival
     }
 
     class Aircraft {
         +Long aircraftId
-	+String modelName
+	    +String modelName
         +int totalSeats
     }
     
@@ -326,10 +326,6 @@ classDiagram
     %% Link Entities to Services
     FlightService --> Flight
     FlightRepository --|> Flight
-    FlightService --> Aircraft
-    FlightRepository --|> Aircraft
-    FlightService --> Airport
-    FlightRepository --|> Airport
 
     PricingService --> Pricing
     PricingRepository --|> Pricing
@@ -363,8 +359,12 @@ classDiagram
 
     ReferenceService --> Country
     ReferenceService --> City
+    ReferenceService --> Aircraft
+    ReferenceService --> Airport
     ReferenceRepository --|> Country
     ReferenceRepository --|> City
+    ReferenceRepository --|> Aircraft
+    ReferenceRepository --|> Airport
 
     AccountingService --> AccountingEntry
     AccountingRepository --|> AccountingEntry
