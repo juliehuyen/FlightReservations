@@ -29,9 +29,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation createReservation(ReservationDto createReservationRequest) {
-        //TODO ajouter une validation pour vérifier si le client et le vol existent
         FlightDto flight = flightClient.getFlightById(createReservationRequest.getFlightId());
+
+        if (flight == null) {
+            throw new IllegalArgumentException("Flight not found with id: " + createReservationRequest.getFlightId());
+        }
+
         ClientDto client = clientClient.getClientById(createReservationRequest.getClientId());
+
+        if (client == null) {
+            throw new IllegalArgumentException("Client not found with id: " + createReservationRequest.getClientId());
+        }
 
         Reservation reservation = Reservation.builder()
                 .id(createReservationRequest.getId())
@@ -52,8 +60,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation getReservationById(Long id) {
-        //TODO ajouter une validation pour vérifier si la réservation existe
-        return reservationRepository.findById(id).orElse(null);
+        return reservationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Reservation not found with id: " + id));
     }
 
     @Override
@@ -64,9 +71,12 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation updateReservationBaggage(Long baggageId, Long reservationId) {
         BaggageDto baggage = baggageClient.getBaggageById(baggageId);
+        if (baggage == null) {
+            throw new IllegalArgumentException("Baggage not found with id: " + baggageId);
+        }
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
-        if (reservation == null || baggage == null) {
-            return null; // or throw an exception
+        if (reservation == null) {
+            throw new IllegalArgumentException("Reservation not found with id: " + reservationId);
         }
         reservation.setBaggageId(baggage.getId());
         return reservationRepository.save(reservation);
@@ -74,9 +84,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> getReservationsByFlightId(Long flightId) {
-//TODO ajouter une validation pour vérifier si le vol existe
-        return reservationRepository.findByFlightId(flightId);
-
+        FlightDto flight = flightClient.getFlightById(flightId);
+        if (flight == null) {
+            throw new IllegalArgumentException("Flight not found with id: " + flightId);
+        }
+        return reservationRepository.findByFlightId(flight.getId());
     }
 
 }
