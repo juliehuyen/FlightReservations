@@ -4,6 +4,7 @@ import fr.joellejulie.entity.Reservation;
 import fr.joellejulie.repository.ReservationRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,13 +18,19 @@ public class DataInitializer {
                         .id(1L)
                         .flightId(1L)
                         .clientId(1L)
-                        .reservationDate(LocalDateTime.now())
+                        .reservationDate(LocalDate.now())
                         .build(),
                 Reservation.builder()
                         .id(2L)
                         .flightId(2L)
                         .clientId(2L)
-                        .reservationDate(LocalDateTime.of(2023, 1, 1, 11, 0))
+                        .reservationDate(LocalDate.of(2023, 1, 1))
+                        .build(),
+                Reservation.builder()
+                        .id(2L)
+                        .flightId(2L)
+                        .clientId(2L)
+                        .reservationDate(LocalDate.of(2022, 6, 22))
                         .build()
         ));
     }

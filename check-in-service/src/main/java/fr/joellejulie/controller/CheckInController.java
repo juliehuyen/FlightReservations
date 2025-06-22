@@ -43,7 +43,7 @@ public class CheckInController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/reservation/{reservationId}")
+    @GetMapping("/reservations/{reservationId}")
     public ResponseEntity<FinalCheckInDto> getCheckInByReservationId(@PathVariable Long reservationId) {
         CheckIn ci = checkInService.findByReservationId(reservationId);
         if (ci == null) {
