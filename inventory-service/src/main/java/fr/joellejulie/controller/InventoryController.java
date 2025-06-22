@@ -16,7 +16,7 @@ public class InventoryController {
         return inventoryService.getAvailableSeats(flightId);
     }
 
-    @GetMapping("/{flightId}")
+    @PutMapping("flights/{flightId}")
     public int updateInventory(@PathVariable Long flightId, @RequestParam int delta) {
         return inventoryService.updateInventory(flightId, delta);
     }

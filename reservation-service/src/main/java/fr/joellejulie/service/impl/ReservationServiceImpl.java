@@ -72,4 +72,11 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.save(reservation);
     }
 
+    @Override
+    public List<Reservation> getReservationsByFlightId(Long flightId) {
+//TODO ajouter une validation pour vérifier si le vol existe
+        return reservationRepository.findByFlightId(flightId);
+
+    }
+
 }

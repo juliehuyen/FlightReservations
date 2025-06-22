@@ -53,4 +53,10 @@ public class ReservationController {
         return ResponseEntity.ok(ReservationDto.mapToDTO(updatedReservation));
     }
 
+    @GetMapping("/flights/{flightId}")
+    public ResponseEntity<List<ReservationDto>> getReservationsByFlightId(@PathVariable Long flightId) {
+        List<Reservation> reservations = reservationService.getReservationsByFlightId(flightId);
+        return ResponseEntity.ok(reservations.stream().map(ReservationDto::mapToDTO).toList());
+    }
+
 }
