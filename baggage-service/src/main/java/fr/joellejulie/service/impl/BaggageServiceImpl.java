@@ -26,8 +26,11 @@ public class BaggageServiceImpl implements BaggageService {
 
     @Override
     public Baggage tagBaggage(BaggageDto req) {
-        //TODO exception handling
         ReservationDto reservation = reservationClient.getReservationById(req.getReservationId());
+
+        if (reservation == null) {
+            throw new IllegalArgumentException("Reservation not found for ID: " + req.getReservationId());
+        }
 
         Baggage baggage = Baggage.builder()
                 .id(req.getId())
@@ -48,6 +51,6 @@ public class BaggageServiceImpl implements BaggageService {
     @Override
     public Baggage getBaggageById(Long id) {
         return baggageRepository.findById(id)
-                .orElse(null); // TODO: handle not found case properly, maybe throw an exception
+                .orElseThrow(() -> new IllegalArgumentException("Baggage not found for ID: " + id));
     }
 }
