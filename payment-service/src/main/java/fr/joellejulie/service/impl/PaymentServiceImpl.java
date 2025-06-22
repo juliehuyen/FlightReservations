@@ -10,7 +10,7 @@ import fr.joellejulie.service.PaymentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -42,7 +42,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .id(req.getId())
                 .reservationId(reservationDto.getId())
                 .amount(price)
-                .paymentDate(LocalDateTime.now())
+                .paymentDate(LocalDate.now())
                 .build();
         return paymentRepository.save(payment);
     }

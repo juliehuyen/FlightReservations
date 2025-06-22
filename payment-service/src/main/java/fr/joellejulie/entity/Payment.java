@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -17,6 +17,6 @@ public class Payment {
     private Long id;
     private Long reservationId;
     private Float amount;
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
 
 }

@@ -5,6 +5,7 @@ import fr.joellejulie.client.PaymentClient;
 import fr.joellejulie.client.ReservationClient;
 import fr.joellejulie.dto.AccountingDto;
 import fr.joellejulie.dto.FlightDto;
+import fr.joellejulie.dto.PaymentDto;
 import fr.joellejulie.dto.ReservationDto;
 import fr.joellejulie.service.AccountingService;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class AccountingServiceImpl  implements AccountingService {
 
         return reservations.stream()
                 .map(reservation -> {
-                    var payment = paymentClient.getPaymentByReservationId(reservation.getId());
+                    PaymentDto payment = paymentClient.getPaymentByReservationId(reservation.getId());
                     if (payment == null) {
                         throw new IllegalArgumentException("Payment not found for reservation with id: " + reservation.getId());
                     }
