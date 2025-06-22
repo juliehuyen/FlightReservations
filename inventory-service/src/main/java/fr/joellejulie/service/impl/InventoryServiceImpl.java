@@ -19,13 +19,22 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public int getAvailableSeats(Long flightId) {
         FlightDto flight = flightClient.getFlightById(flightId);
+        if (flight == null) {
+            throw new IllegalArgumentException("Flight not found with id: " + flightId);
+        }
         return inventoryRepository.findByFlightId(flight.getId()).getAvailableSeats();
     }
 
     @Override
     public int updateInventory(Long flightId, int delta) {
         FlightDto flight = flightClient.getFlightById(flightId);
+        if (flight == null) {
+            throw new IllegalArgumentException("Flight not found with id: " + flightId);
+        }
         SeatInventory seatInventory = inventoryRepository.findByFlightId(flight.getId());
+        if (seatInventory == null) {
+            throw new IllegalArgumentException("Seat inventory not found for flight id: " + flight.getId());
+        }
         int newAvailable = seatInventory.getAvailableSeats() + delta;
         seatInventory.setAvailableSeats(newAvailable);
         inventoryRepository.save(seatInventory);

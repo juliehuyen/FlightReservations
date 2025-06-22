@@ -9,6 +9,7 @@ import fr.joellejulie.repository.CheckInRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class CheckInServiceImpl implements fr.joellejulie.service.CheckInService
         CheckIn checkIn = CheckIn.builder()
                 .id(req.getId())
                 .reservationId(reservation.getId())
-                .checkInTime(LocalDateTime.now())
+                .checkInTime(LocalDate.now())
                 .baggageId(req.getBaggageId())
                 .build();
 
@@ -74,14 +75,12 @@ public class CheckInServiceImpl implements fr.joellejulie.service.CheckInService
 
     @Override
     public CheckIn findByReservationId(Long reservationId) {
-        //TODO implémenter le cas où la réservation n'existe pas
         return checkInRepository.findByReservationId(reservationId)
-                .orElse(null); // Retourne null si aucun CheckIn trouvé
+                .orElseThrow(() -> new IllegalArgumentException("CheckIn with Reservation ID " + reservationId + " does not exist"));
     }
 
     @Override
     public CheckIn findById(Long id) {
-        //TODO implémenter le cas où le CheckIn n'existe pas
         return checkInRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("CheckIn with ID " + id + " does not exist"));
     }

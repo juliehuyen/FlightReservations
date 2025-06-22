@@ -5,13 +5,11 @@ import fr.joellejulie.repository.ReservationRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
 public class DataInitializer {
 
-    //TODO pas utiliser ici je crois, pour faire la différence entre le DTO demandé et le DTO renvoyé, faire deux DTO différents
     public DataInitializer(ReservationRepository reservationRepository) {
         reservationRepository.saveAll(List.of(
                 Reservation.builder()

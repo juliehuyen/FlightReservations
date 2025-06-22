@@ -1,6 +1,6 @@
 package fr.joellejulie.service.impl;
 
-import fr.joellejulie.client.CheckInClient;
+
 import fr.joellejulie.dto.BoardingDto;
 import fr.joellejulie.entity.Boarding;
 import fr.joellejulie.repository.BoardingRepository;
@@ -15,8 +15,6 @@ import java.util.List;
 public class BoardingServiceImpl implements BoardingService {
 
     private final BoardingRepository boardingRepository;
-
-    private final CheckInClient checkInClient;
 
     @Override
     public Boarding performBoarding(BoardingDto boardingDto) {

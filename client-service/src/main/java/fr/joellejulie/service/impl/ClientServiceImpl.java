@@ -29,7 +29,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client findById(Long id) {
-        return clientRepository.findById(id).orElse(null);
+        return clientRepository.findById(id).orElseThrow(() -> new RuntimeException("Client not found with id: " + id));
     }
 
     @Override

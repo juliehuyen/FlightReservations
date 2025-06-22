@@ -12,8 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +28,16 @@ public class SeatingServiceImpl implements SeatingService {
     @Override
     public Seating allocateSeat(Long flightId,String seatNumber, Long checkInId) {
         FlightDto flight = flightClient.getFlightById(flightId);
+
+        if (flight == null) {
+            throw new IllegalArgumentException("Flight not found with id: " + flightId);
+        }
+
         CheckInDto checkIn = checkInClient.getCheckInById(checkInId);
+
+        if (checkIn == null) {
+            throw new IllegalArgumentException("Check-in not found with id: " + checkInId);
+        }
 
         if(inventoryClient.getAvailableSeats(flight.getId()) <= 0) {
             throw new IllegalStateException("No available seats for flight " + flight.getId());
@@ -39,12 +46,6 @@ public class SeatingServiceImpl implements SeatingService {
         if (seatingRepository.existsByFlightIdAndSeatNumber(flight.getId(),seatNumber)) {
             throw new IllegalStateException(
                     "Seat " + seatNumber + " already taken on flight " + flight.getId()
-            );
-        }
-
-        if (checkIn == null) {
-            throw new IllegalStateException(
-                    "Check-in with ID " + checkInId + " does not exist"
             );
         }
 

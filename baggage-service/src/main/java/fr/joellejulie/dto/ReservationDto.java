@@ -2,7 +2,7 @@ package fr.joellejulie.dto;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,5 +16,5 @@ public class ReservationDto {
     private String clientFirstName;
     private String clientLastName;
     private String passportNumber;
-    private LocalDateTime reservationDate;
+    private LocalDate reservationDate;
 }
