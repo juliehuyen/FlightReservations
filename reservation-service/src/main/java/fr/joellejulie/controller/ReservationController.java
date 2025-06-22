@@ -43,4 +43,14 @@ public class ReservationController {
         return ResponseEntity.ok(reservations.stream().map(ReservationDto::mapToDTO).toList());
     }
 
+    @PutMapping("{reservationId}/baggages/{baggageId}")
+    public ResponseEntity<ReservationDto> updateReservationBaggage(@PathVariable Long baggageId,
+                                                                   @PathVariable Long reservationId) {
+        Reservation updatedReservation = reservationService.updateReservationBaggage(baggageId, reservationId);
+        if (updatedReservation == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ReservationDto.mapToDTO(updatedReservation));
+    }
+
 }

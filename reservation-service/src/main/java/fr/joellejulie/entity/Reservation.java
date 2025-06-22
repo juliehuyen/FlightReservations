@@ -1,11 +1,13 @@
 package fr.joellejulie.entity;
 
+import fr.joellejulie.dto.BaggageDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "reservation")
@@ -19,6 +21,7 @@ public class Reservation {
     private String clientFirstName;
     private String clientLastName;
     private String passportNumber;
+    private Long baggageId;
     private LocalDateTime reservationDate;
 
 }

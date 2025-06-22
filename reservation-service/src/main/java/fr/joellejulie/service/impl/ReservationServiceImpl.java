@@ -1,7 +1,9 @@
 package fr.joellejulie.service.impl;
 
+import fr.joellejulie.client.BaggageClient;
 import fr.joellejulie.client.ClientClient;
 import fr.joellejulie.client.FlightClient;
+import fr.joellejulie.dto.BaggageDto;
 import fr.joellejulie.dto.ClientDto;
 import fr.joellejulie.dto.FlightDto;
 import fr.joellejulie.dto.ReservationDto;
@@ -22,6 +24,8 @@ public class ReservationServiceImpl implements ReservationService {
     private final FlightClient flightClient;
 
     private final ClientClient clientClient;
+
+    private final BaggageClient baggageClient;
 
     @Override
     public Reservation createReservation(ReservationDto createReservationRequest) {
@@ -55,6 +59,17 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    @Override
+    public Reservation updateReservationBaggage(Long baggageId, Long reservationId) {
+        BaggageDto baggage = baggageClient.getBaggageById(baggageId);
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        if (reservation == null || baggage == null) {
+            return null; // or throw an exception
+        }
+        reservation.setBaggageId(baggage.getId());
+        return reservationRepository.save(reservation);
     }
 
 }

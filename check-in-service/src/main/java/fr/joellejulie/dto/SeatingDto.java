@@ -1,4 +1,4 @@
 package fr.joellejulie.dto;
 
-public class ClientDto {
+public class SeatingDto {
 }

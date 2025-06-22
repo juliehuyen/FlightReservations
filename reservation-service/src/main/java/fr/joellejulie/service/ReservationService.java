@@ -12,4 +12,6 @@ public interface ReservationService {
     Reservation getReservationById(Long id);
     List<Reservation> getAllReservations();
 
+    Reservation updateReservationBaggage(Long baggageId, Long reservationId);
+
 }
