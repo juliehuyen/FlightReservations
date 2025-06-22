@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -18,7 +19,7 @@ public class CheckIn {
     @Id
     private Long id;
     private Long reservationId;
-    private LocalDateTime checkInTime;
+    private LocalDate checkInTime;
     private String boardingPassNumber;
     private String seatNumber;
     private Long baggageId;

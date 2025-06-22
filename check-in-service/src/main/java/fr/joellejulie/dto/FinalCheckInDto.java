@@ -3,6 +3,7 @@ package fr.joellejulie.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 public class FinalCheckInDto {
     private Long id;
     private Long reservationId;
-    private LocalDateTime checkInTime;
+    private LocalDate checkInTime;
     private String boardingPassNumber;
     private String seatNumber;
     private Long baggageId;

@@ -5,6 +5,7 @@ import fr.joellejulie.client.FlightClient;
 import fr.joellejulie.client.InventoryClient;
 import fr.joellejulie.dto.CheckInDto;
 import fr.joellejulie.dto.FlightDto;
+import fr.joellejulie.dto.InventoryDto;
 import fr.joellejulie.entity.Seating;
 import fr.joellejulie.repository.SeatingRepository;
 import fr.joellejulie.service.SeatingService;

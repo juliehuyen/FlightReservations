@@ -1,15 +1,20 @@
 package fr.joellejulie.dto;
 
-import lombok.Getter;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CheckInDto {
 
     private Long id;
     private Long reservationId;
-    private LocalDateTime checkInTime;
+    private LocalDate checkInTime;
     private String boardingPassNumber;
     private String seatNumber;
     private String gateNumber;
