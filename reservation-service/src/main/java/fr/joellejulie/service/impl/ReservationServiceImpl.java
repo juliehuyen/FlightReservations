@@ -32,7 +32,6 @@ public class ReservationServiceImpl implements ReservationService {
         //TODO ajouter une validation pour vérifier si le client et le vol existent
         FlightDto flight = flightClient.getFlightById(createReservationRequest.getFlightId());
         ClientDto client = clientClient.getClientById(createReservationRequest.getClientId());
-        BaggageDto baggage = baggageClient.getBaggageById(createReservationRequest.getBaggageId());
 
         Reservation reservation = Reservation.builder()
                 .id(createReservationRequest.getId())
@@ -41,7 +40,6 @@ public class ReservationServiceImpl implements ReservationService {
                 .clientFirstName(client.getFirstName())
                 .clientLastName(client.getLastName())
                 .passportNumber(client.getPassportNumber())
-                .baggageId(baggage.getId()) // Si le bagage est optionnel
                 .reservationDate(java.time.LocalDateTime.now())
                 .build();
         return reservationRepository.save(reservation);
@@ -61,6 +59,17 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    @Override
+    public Reservation updateReservationBaggage(Long baggageId, Long reservationId) {
+        BaggageDto baggage = baggageClient.getBaggageById(baggageId);
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        if (reservation == null || baggage == null) {
+            return null; // or throw an exception
+        }
+        reservation.setBaggageId(baggage.getId());
+        return reservationRepository.save(reservation);
     }
 
 }

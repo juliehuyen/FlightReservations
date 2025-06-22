@@ -16,7 +16,7 @@ public class ReservationDto {
     private String clientLastName;
     private String passportNumber;
     private LocalDateTime reservationDate;
-
+    private Long baggageId;
 
     public static ReservationDto mapToDTO(Reservation reservation) {
         return ReservationDto.builder()
@@ -27,6 +27,7 @@ public class ReservationDto {
                 .clientLastName(reservation.getClientLastName())
                 .passportNumber(reservation.getPassportNumber())
                 .reservationDate(reservation.getReservationDate())
+                .baggageId(reservation.getBaggageId())
                 .build();
     }
 
