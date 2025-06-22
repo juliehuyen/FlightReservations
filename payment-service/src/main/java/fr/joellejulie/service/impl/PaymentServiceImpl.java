@@ -1,5 +1,6 @@
 package fr.joellejulie.service.impl;
 
+import fr.joellejulie.client.PricingClient;
 import fr.joellejulie.client.ReservationClient;
 import fr.joellejulie.dto.PaymentDto;
 import fr.joellejulie.dto.ReservationDto;
@@ -20,13 +21,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final ReservationClient reservationClient;
 
+    private final PricingClient pricingClient;
+
     @Override
     public Payment processPayment(PaymentDto req) {
         ReservationDto reservationDto = reservationClient.getReservationById(req.getReservationId());
+        Float price = pricingClient.getPrice(reservationDto.getFlightId(), reservationDto.getReservationDate());
         Payment payment = Payment.builder()
                 .id(req.getId())
                 .reservationId(reservationDto.getId())
-                .amount(req.getAmount())
+                .amount(price)
                 .paymentDate(LocalDateTime.now())
                 .build();
         return paymentRepository.save(payment);

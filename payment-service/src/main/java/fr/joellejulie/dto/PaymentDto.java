@@ -13,13 +13,11 @@ import java.time.LocalDateTime;
 public class PaymentDto {
     private Long id;
     private Long reservationId;
-    private Float amount;
 
     public static PaymentDto mapToDTO(Payment payment) {
         return PaymentDto.builder()
                 .id(payment.getId())
                 .reservationId(payment.getReservationId())
-                .amount(payment.getAmount())
                 .build();
     }
 }

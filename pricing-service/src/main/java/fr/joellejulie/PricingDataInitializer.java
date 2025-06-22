@@ -30,6 +30,12 @@ public class PricingDataInitializer {
                         .flightId(1L)
                         .date(LocalDate.of(2025, 7, 20))
                         .price(250.0f)
+                        .build(),
+                Pricing.builder()
+                        .id(4L)
+                        .flightId(1L)
+                        .date(LocalDate.of(2025, 6, 22))
+                        .price(250.0f)
                         .build()
         ));
     }

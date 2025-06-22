@@ -40,7 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .clientFirstName(client.getFirstName())
                 .clientLastName(client.getLastName())
                 .passportNumber(client.getPassportNumber())
-                .reservationDate(java.time.LocalDateTime.now())
+                .reservationDate(java.time.LocalDate.now())
                 .build();
         return reservationRepository.save(reservation);
     }

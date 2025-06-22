@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "inventory-service", url = "http://localhost:8081")
 public interface InventoryClient {
 
-    @GetMapping("/v1/inventory/flights/{flightId}")
+    @GetMapping("/v1/inventorys/flights/{flightId}")
     int updateInventory(@PathVariable Long flightId, @RequestParam int delta);
 
-    @GetMapping("/v1/inventory/flights/{flightId}")
+    @GetMapping("/v1/inventorys/flights/{flightId}")
     int getAvailableSeats(@PathVariable Long flightId);
 }

@@ -3,6 +3,7 @@ package fr.joellejulie.dto;
 import fr.joellejulie.entity.Reservation;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter @Setter @Builder
@@ -15,7 +16,7 @@ public class ReservationDto {
     private String clientFirstName;
     private String clientLastName;
     private String passportNumber;
-    private LocalDateTime reservationDate;
+    private LocalDate reservationDate;
     private Long baggageId;
 
     public static ReservationDto mapToDTO(Reservation reservation) {
