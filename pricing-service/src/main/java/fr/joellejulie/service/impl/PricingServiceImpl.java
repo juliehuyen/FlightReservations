@@ -2,7 +2,6 @@ package fr.joellejulie.service.impl;
 
 import fr.joellejulie.client.FlightClient;
 import fr.joellejulie.dto.FlightDto;
-import fr.joellejulie.dto.PricingDto;
 import fr.joellejulie.entity.Pricing;
 import fr.joellejulie.repository.PricingRepository;
 import fr.joellejulie.service.PricingService;
