@@ -15,11 +15,13 @@ public class CheckInDto {
 
     private Long id;
     private Long reservationId;
+    private Long baggageId;
 
     public static CheckInDto mapToDTO(fr.joellejulie.entity.CheckIn checkIn) {
-        CheckInDto dto = new CheckInDto();
-        dto.id = checkIn.getId();
-        dto.reservationId = checkIn.getReservationId();
-        return dto;
+        return CheckInDto.builder()
+                .id(checkIn.getId())
+                .reservationId(checkIn.getReservationId())
+                .baggageId(checkIn.getBaggageId())
+                .build();
     }
 }

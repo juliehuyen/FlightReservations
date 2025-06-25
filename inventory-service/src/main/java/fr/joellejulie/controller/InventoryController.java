@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/inventory")
+@RequestMapping("/v1/inventorys")
 @AllArgsConstructor
 public class InventoryController {
 

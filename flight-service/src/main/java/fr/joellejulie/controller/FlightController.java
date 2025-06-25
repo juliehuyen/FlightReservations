@@ -22,6 +22,12 @@ public class FlightController {
     private final FlightService flightService;
     private static final Logger log = LoggerFactory.getLogger(FlightController.class);
 
+    @PostMapping
+    public ResponseEntity<FlightDto> createFlight(@RequestBody FlightDto flightDto) {
+        Flight flight = flightService.createFlight(flightDto);
+        return ResponseEntity.ok(FlightDto.mapToDTO(flight));
+    }
+
     @GetMapping
     public ResponseEntity<List<FlightDto>> getAllFlights() {
         List<Flight> flights = flightService.findAll();

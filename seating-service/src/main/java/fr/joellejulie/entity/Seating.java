@@ -22,4 +22,5 @@ public class Seating {
     private Long id;
     private Long flightId;
     private String seatNumber;
+    private Long checkInId;
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +23,6 @@ public class Reservation {
     private String clientLastName;
     private String passportNumber;
     private Long baggageId;
-    private LocalDateTime reservationDate;
+    private LocalDate reservationDate;
 
 }
