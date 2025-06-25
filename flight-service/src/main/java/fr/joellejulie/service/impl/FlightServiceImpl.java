@@ -10,6 +10,7 @@ import fr.joellejulie.service.FlightService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,12 +23,17 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public Flight findById(Long id) {
-        return flightRepository.findById(id).orElseThrow(() -> new RuntimeException("Flight not found with id: " + id));
+        return flightRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Flight> findAll() {
         return flightRepository.findAll();
+    }
+
+    @Override
+    public List<Flight> searchFlights(String departure, String destination, LocalDateTime date) {
+        return flightRepository.searchFlights(departure, destination, date);
     }
 
     @Override
