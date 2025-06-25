@@ -18,6 +18,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client createClient(ClientDto createClientRequest) {
         Client client = Client.builder()
+                .id(createClientRequest.getId())
                 .firstName(createClientRequest.getFirstName())
                 .lastName(createClientRequest.getLastName())
                 .email(createClientRequest.getEmail())
