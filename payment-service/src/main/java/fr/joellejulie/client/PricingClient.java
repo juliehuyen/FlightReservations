@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
-@FeignClient(name = "pricing-service", url = "http://localhost:8082")
+@FeignClient(name = "pricing-service")
 public interface PricingClient {
 
     @GetMapping("/v1/pricings/flights")

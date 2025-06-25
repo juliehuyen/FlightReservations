@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "seating-service", url = "http://localhost:8087")
+@FeignClient(name = "seating-service")
 public interface SeatingClient {
 
     @PostMapping("/v1/seatings/flights/{flightId}")

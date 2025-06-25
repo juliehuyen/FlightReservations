@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "reservation-service", url = "http://localhost:8084")
+@FeignClient(name = "reservation-service")
 public interface ReservationClient {
 
     @GetMapping("/v1/reservations/{id}")

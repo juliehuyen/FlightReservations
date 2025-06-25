@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@FeignClient(name = "flight-service", url = "http://localhost:8080")
+@FeignClient(name = "flight-service")
 public interface FlightClient {
 
     @GetMapping("/v1/flights/search")

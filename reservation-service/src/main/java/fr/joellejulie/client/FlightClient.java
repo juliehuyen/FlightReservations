@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "flight-service", url="http://localhost:8080")
+@FeignClient(name = "flight-service")
 public interface FlightClient {
 
    @GetMapping("/v1/flights/{id}")
