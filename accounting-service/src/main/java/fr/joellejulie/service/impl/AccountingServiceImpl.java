@@ -9,11 +9,15 @@ import fr.joellejulie.dto.PaymentDto;
 import fr.joellejulie.dto.ReservationDto;
 import fr.joellejulie.service.AccountingService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class AccountingServiceImpl  implements AccountingService {
 
@@ -29,24 +33,22 @@ public class AccountingServiceImpl  implements AccountingService {
         if (flight == null) {
             throw new IllegalArgumentException("Flight not found with id: " + flightId);
         }
-        List<ReservationDto> reservations = reservationClient.getReservationsByFlightId(flightId);
-        if (reservations.isEmpty()) {
-            throw new IllegalArgumentException("No reservations found for flight with id: " + flightId);
-        }
+        List<PaymentDto> payments = paymentClient.getAllPayments();
 
-        return reservations.stream()
-                .map(reservation -> {
-                    PaymentDto payment = paymentClient.getPaymentByReservationId(reservation.getId());
-                    if (payment == null) {
-                        throw new IllegalArgumentException("Payment not found for reservation with id: " + reservation.getId());
+        return payments.stream()
+                .map(payment -> {
+                    ReservationDto reservation = reservationClient.getReservationById(payment.getReservationId());
+                    if(Objects.equals(reservation.getFlightId(), flightId)) {
+                        return Optional.of(AccountingDto.builder()
+                                .flightId(flightId)
+                                .reservationId(reservation.getId())
+                                .paymentDate(payment.getPaymentDate())
+                                .amount(payment.getAmount())
+                                .build());
                     }
-                    return AccountingDto.builder()
-                            .flightId(flightId)
-                            .reservationId(reservation.getId())
-                            .paymentDate(payment.getPaymentDate())
-                            .amount(payment.getAmount())
-                            .build();
+                   return Optional.<AccountingDto>empty();
                 })
+                .flatMap(Optional::stream)
                 .toList();
     }
 }

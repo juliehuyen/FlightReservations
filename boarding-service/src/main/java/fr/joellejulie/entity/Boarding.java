@@ -18,4 +18,5 @@ public class Boarding {
     private LocalDateTime boardingTime;
     private String gateNumber;
     private String seatNumber;
+    private Long flightId;
 }

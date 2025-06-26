@@ -1,6 +1,7 @@
 package fr.joellejulie.controller;
 
 import fr.joellejulie.dto.PaymentDto;
+import fr.joellejulie.dto.PaymentRequestDto;
 import fr.joellejulie.entity.Payment;
 import fr.joellejulie.service.PaymentService;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<PaymentDto> createPayment(@RequestBody PaymentDto req) {
+    public ResponseEntity<PaymentDto> createPayment(@RequestBody PaymentRequestDto req) {
         Payment saved = paymentService.processPayment(req);
         return ResponseEntity.ok(PaymentDto.mapToDTO(saved));
     }
