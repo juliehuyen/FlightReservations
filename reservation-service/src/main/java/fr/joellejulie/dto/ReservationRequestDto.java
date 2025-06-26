@@ -9,5 +9,4 @@ public class ReservationRequestDto {
     private Long id;
     private Long flightId;
     private Long clientId;
-    private String passportNumber;
 }
