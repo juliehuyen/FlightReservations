@@ -11,7 +11,7 @@ import lombok.*;
 public class City {
 
     @Id
-    private Long id;
+    private Long cityId;
     private String countryCode;
     private String name;
 

@@ -11,17 +11,22 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CityDto {
-    private Long id;
+    private Long cityId;
     private String countryCode;
     private String name;
 
-    public static List<CityDto> mapToDTO(List<City> cities) {
+
+    public static CityDto mapToDTO(City city) {
+        return CityDto.builder()
+                .cityId(city.getCityId())
+                .countryCode(city.getCountryCode())
+                .name(city.getName())
+                .build();
+    }
+
+    public static List<CityDto> mapToDTOs(List<City> cities) {
         return cities.stream()
-                .map(city -> CityDto.builder()
-                        .id(city.getId())
-                        .countryCode(city.getCountryCode())
-                        .name(city.getName())
-                        .build())
+                .map(CityDto::mapToDTO)
                 .toList();
     }
 }

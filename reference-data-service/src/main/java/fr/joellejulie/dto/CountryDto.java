@@ -14,12 +14,16 @@ public class CountryDto {
     private String code;
     private String name;
 
-    public static List<CountryDto> mapToDTO(List<Country> countries) {
+    public static CountryDto mapToDTO(Country country) {
+        return CountryDto.builder()
+                .code(country.getCode())
+                .name(country.getName())
+                .build();
+    }
+
+    public static List<CountryDto> mapToDTOs(List<Country> countries) {
         return countries.stream()
-                .map(country -> CountryDto.builder()
-                        .code(country.getCode())
-                        .name(country.getName())
-                        .build())
+                .map(CountryDto::mapToDTO)
                 .toList();
     }
 }

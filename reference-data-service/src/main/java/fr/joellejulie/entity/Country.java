@@ -11,7 +11,6 @@ import lombok.*;
 public class Country {
 
     @Id
-    private Long id;
     private String code;
     private String name;
 

@@ -19,17 +19,14 @@ public class DataReferencesDataInitializer {
         countryRepository.saveAll(
                 List.of(
                         Country.builder()
-                                .id(1L)
                                 .code("US")
                                 .name("United States")
                                 .build(),
                         Country.builder()
-                                .id(2L)
                                 .code("FR")
                                 .name("France")
                                 .build(),
                         Country.builder()
-                                .id(3L)
                                 .code("GB")
                                 .name("United Kingdom")
                                 .build()
@@ -38,17 +35,17 @@ public class DataReferencesDataInitializer {
         cityRepository.saveAll(
                 List.of(
                         City.builder()
-                                .id(1L)
+                                .cityId(1L)
                                 .name("New York")
                                 .countryCode("US")
                                 .build(),
                         City.builder()
-                                .id(2L)
+                                .cityId(2L)
                                 .name("Los Angeles")
                                 .countryCode("US")
                                 .build(),
                         City.builder()
-                                .id(3L)
+                                .cityId(3L)
                                 .name("Paris")
                                 .countryCode("FR")
                                 .build()
