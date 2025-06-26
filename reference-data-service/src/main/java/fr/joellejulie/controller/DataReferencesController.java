@@ -11,10 +11,7 @@ import fr.joellejulie.entity.Country;
 import fr.joellejulie.service.DataReferencesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,13 +25,13 @@ public class DataReferencesController {
     @GetMapping("/countries")
     public ResponseEntity<List<CountryDto>> getCountries() {
         List<Country> countries = dataReferencesService.getCountries();
-        return ResponseEntity.ok(CountryDto.mapToDTO(countries));
+        return ResponseEntity.ok(CountryDto.mapToDTOs(countries));
     }
 
-    @GetMapping("/countries/{code}/cities")
-    public ResponseEntity<List<CityDto>> getCities(@PathVariable("code") String countryCode) {
-        List<City> cities = dataReferencesService.getCities(countryCode);
-        return ResponseEntity.ok(CityDto.mapToDTO(cities));
+    @GetMapping("/cities")
+    public ResponseEntity<List<CityDto>> getCities() {
+        List<City> cities = dataReferencesService.getCities();
+        return ResponseEntity.ok(CityDto.mapToDTOs(cities));
     }
 
     @GetMapping("/airports/{airportCode}")
@@ -43,9 +40,45 @@ public class DataReferencesController {
         return ResponseEntity.ok(AirportDto.mapToDTO(airport));
     }
 
-    @GetMapping("/aircraft/{aircraftId}")
+    @GetMapping("/aircrafts/{aircraftId}")
     public ResponseEntity<AircraftDto> getAircraftById(@PathVariable("aircraftId") Long aircraftId) {
         Aircraft aircraft = dataReferencesService.getAircraftById(aircraftId);
         return ResponseEntity.ok(AircraftDto.mapToDTO(aircraft));
+    }
+
+    @GetMapping("/airports")
+    public ResponseEntity<List<AirportDto>> getAllAirports() {
+        List<Airport> airports = dataReferencesService.getAllAirports();
+        return ResponseEntity.ok(AirportDto.mapToDTOs(airports));
+    }
+
+    @GetMapping("/aircrafts")
+    public ResponseEntity<List<AircraftDto>> getAllAircrafts() {
+        List<Aircraft> aircrafts = dataReferencesService.getAllAircrafts();
+        return ResponseEntity.ok(AircraftDto.mapToDTOs(aircrafts));
+    }
+
+    @PostMapping("/aircrafts")
+    public ResponseEntity<AircraftDto> createAircraft(@RequestBody AircraftDto aircraftDto) {
+        Aircraft aircraft = dataReferencesService.createAircraft(aircraftDto);
+        return ResponseEntity.ok(AircraftDto.mapToDTO(aircraft));
+    }
+
+    @PostMapping("/airports")
+    public ResponseEntity<AirportDto> createAirport(@RequestBody AirportDto airportDto) {
+        Airport airport = dataReferencesService.createAirport(airportDto);
+        return ResponseEntity.ok(AirportDto.mapToDTO(airport));
+    }
+
+    @PostMapping("/countries")
+    public ResponseEntity<CountryDto> createCountry(@RequestBody CountryDto countryDto) {
+        Country country = dataReferencesService.createCountry(countryDto);
+        return ResponseEntity.ok(CountryDto.mapToDTO(country));
+    }
+
+    @PostMapping("/cities")
+    public ResponseEntity<CityDto> createCity(@RequestBody CityDto cityDto) {
+        City city = dataReferencesService.createCity(cityDto);
+        return ResponseEntity.ok(CityDto.mapToDTO(city));
     }
 }

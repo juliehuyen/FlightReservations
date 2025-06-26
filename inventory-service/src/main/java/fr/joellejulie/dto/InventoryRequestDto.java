@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ReservationRequestDto {
+public class InventoryRequestDto {
     private Long id;
     private Long flightId;
-    private Long clientId;
 }
