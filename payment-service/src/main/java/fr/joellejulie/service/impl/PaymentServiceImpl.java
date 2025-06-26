@@ -2,7 +2,7 @@ package fr.joellejulie.service.impl;
 
 import fr.joellejulie.client.PricingClient;
 import fr.joellejulie.client.ReservationClient;
-import fr.joellejulie.dto.PaymentDto;
+import fr.joellejulie.dto.PaymentRequestDto;
 import fr.joellejulie.dto.ReservationDto;
 import fr.joellejulie.entity.Payment;
 import fr.joellejulie.repository.PaymentRepository;
@@ -24,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PricingClient pricingClient;
 
     @Override
-    public Payment processPayment(PaymentDto req) {
+    public Payment processPayment(PaymentRequestDto req) {
         ReservationDto reservationDto = reservationClient.getReservationById(req.getReservationId());
 
         if (reservationDto == null) {

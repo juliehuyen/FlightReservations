@@ -23,6 +23,7 @@ public class BoardingServiceImpl implements BoardingService {
                 .boardingTime(boardingDto.getBoardingTime())
                 .gateNumber(boardingDto.getGateNumber())
                 .seatNumber(boardingDto.getSeatNumber())
+                .flightId(boardingDto.getFlightId())
                 .build();
 
         return boardingRepository.save(boarding);

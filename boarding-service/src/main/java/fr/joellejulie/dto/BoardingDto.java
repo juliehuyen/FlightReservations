@@ -17,6 +17,7 @@ public class BoardingDto {
     private String gateNumber;
     private String seatNumber;
     private LocalDateTime boardingTime;
+    private Long flightId;
 
     public static BoardingDto mapToDTO(Boarding boarding) {
         return BoardingDto.builder()
@@ -24,6 +25,7 @@ public class BoardingDto {
                 .gateNumber(boarding.getGateNumber())
                 .seatNumber(boarding.getSeatNumber())
                 .boardingTime(boarding.getBoardingTime())
+                .flightId(boarding.getFlightId())
                 .build();
     }
 }

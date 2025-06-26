@@ -11,14 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class SeatingDto {
-    private Long flightId;
     private String seatNumber;
     private Long checkInId;
 
 
     public static SeatingDto mapToDTO(Seating seating) {
         return SeatingDto.builder()
-                .flightId(seating.getFlightId())
                 .seatNumber(seating.getSeatNumber())
                 .checkInId(seating.getCheckInId())
                 .build();
