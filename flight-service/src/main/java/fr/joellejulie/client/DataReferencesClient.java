@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "data-references", url = "http://localhost:8092")
+@FeignClient(name = "data-references-service")
 public interface DataReferencesClient {
 
     @GetMapping("/v1/data-references/countries")

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "boarding-service", url = "http://localhost:8089")
+@FeignClient(name = "boarding-service")
 public interface BoardingClient {
 
     @PostMapping("/v1/boardings")

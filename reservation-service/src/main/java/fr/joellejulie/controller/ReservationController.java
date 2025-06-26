@@ -1,6 +1,7 @@
 package fr.joellejulie.controller;
 
 import fr.joellejulie.dto.ReservationDto;
+import fr.joellejulie.dto.ReservationRequestDto;
 import fr.joellejulie.entity.Reservation;
 import fr.joellejulie.service.ReservationService;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @PostMapping
-    public ResponseEntity<ReservationDto> createReservation(@RequestBody ReservationDto createReservationRequest) {
+    public ResponseEntity<ReservationDto> createReservation(@RequestBody ReservationRequestDto createReservationRequest) {
         Reservation reservation = reservationService.createReservation(createReservationRequest);
         return ResponseEntity.ok(ReservationDto.mapToDTO(reservation));
     }
