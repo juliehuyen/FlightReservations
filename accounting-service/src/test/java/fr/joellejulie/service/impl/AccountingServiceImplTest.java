@@ -7,7 +7,6 @@ import fr.joellejulie.dto.AccountingDto;
 import fr.joellejulie.dto.FlightDto;
 import fr.joellejulie.dto.PaymentDto;
 import fr.joellejulie.dto.ReservationDto;
-import fr.joellejulie.service.impl.AccountingServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
