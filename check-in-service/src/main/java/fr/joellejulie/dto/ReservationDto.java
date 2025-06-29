@@ -17,4 +17,5 @@ public class ReservationDto {
     private String clientLastName;
     private String passportNumber;
     private LocalDate reservationDate;
+    private Long baggageId;
 }

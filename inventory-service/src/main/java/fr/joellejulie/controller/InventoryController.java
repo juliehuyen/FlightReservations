@@ -1,11 +1,17 @@
 package fr.joellejulie.controller;
 
+import fr.joellejulie.dto.InventoryDto;
+import fr.joellejulie.dto.InventoryRequestDto;
+import fr.joellejulie.entity.SeatInventory;
 import fr.joellejulie.service.InventoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/v1/inventorys")
+@RequestMapping("/v1/inventories")
 @AllArgsConstructor
 public class InventoryController {
 
@@ -21,4 +27,17 @@ public class InventoryController {
         return inventoryService.updateInventory(flightId, delta);
     }
 
+    @PostMapping
+    public ResponseEntity<InventoryDto> createInventory(@RequestBody InventoryRequestDto inventoryDto) {
+        SeatInventory inventory = inventoryService.createInventory(inventoryDto);
+        return ResponseEntity.ok(InventoryDto.mapToDTO(inventory));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<InventoryDto>> getAllInventories() {
+        List<SeatInventory> inventories = inventoryService.getAllInventories();
+        return ResponseEntity.ok(inventories.stream()
+                .map(InventoryDto::mapToDTO)
+                .toList());
+    }
 }

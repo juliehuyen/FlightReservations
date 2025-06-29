@@ -22,6 +22,6 @@ public interface DataReferencesClient {
     @GetMapping("/v1/data-references/airports/{airportCode}")
     AirportDto getAirportByCode(@PathVariable("airportCode") String airportCode);
 
-    @GetMapping("/v1/data-references/aircraft/{aircraftId}")
+    @GetMapping("/v1/data-references/aircrafts/{aircraftId}")
     AircraftDto getAircraftById(@PathVariable("aircraftId") Long aircraftId);
 }

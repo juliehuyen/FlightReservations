@@ -4,6 +4,8 @@ import fr.joellejulie.entity.Aircraft;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @Builder
 public class AircraftDto {
@@ -18,5 +20,11 @@ public class AircraftDto {
                 .modelName(aircraft.getModelName())
                 .totalSeats(aircraft.getTotalSeats())
                 .build();
+    }
+
+    public static List<AircraftDto> mapToDTOs(List<Aircraft> aircrafts) {
+        return aircrafts.stream()
+                .map(AircraftDto::mapToDTO)
+                .toList();
     }
 }

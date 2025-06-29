@@ -36,7 +36,6 @@ public class CheckInServiceImpl implements fr.joellejulie.service.CheckInService
                 .id(req.getId())
                 .reservationId(reservation.getId())
                 .checkInTime(LocalDate.now())
-                .baggageId(req.getBaggageId())
                 .build();
 
         return checkInRepository.save(checkIn);
@@ -57,11 +56,13 @@ public class CheckInServiceImpl implements fr.joellejulie.service.CheckInService
                 .boardingTime(LocalDateTime.now())
                 .gateNumber(checkInDto.getGateNumber())
                 .seatNumber(seating.getSeatNumber())
+                .flightId(reservation.getFlightId())
                 .build());
 
         // Mise à jour des informations de CheckIn
         checkIn.setBoardingPassNumber(boardingDto.getId());
         checkIn.setSeatNumber(boardingDto.getSeatNumber());
+        checkIn.setBaggageId(reservation.getBaggageId());
 
         return checkInRepository.save(checkIn);
 
