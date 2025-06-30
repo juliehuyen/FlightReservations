@@ -53,7 +53,6 @@ graph TD
     CHECKIN -->|Feign| SEATING
     CHECKIN -->|Feign| BOARDING
 
-    BOARDING -->|DB| DB_BOARDING[(DB Boarding)]
     SEATING -->|Feign| INVENTORY
     INVENTORY -->|Feign| FLIGHT
 
@@ -70,4 +69,3 @@ graph TD
     GW --> CONFIG
     all_services((Tous les services)) --> DISC
     all_services --> CONFIG
-
