@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant Client as Utilisateur
+    participant Gateway as API Gateway
+    participant Reservation as Reservation Service
+    participant Flight as Flight Service
+    participant ClientS as Client Service
+    participant Baggage as Baggage Service
+
+    Client->>Gateway: Envoie une demande de réservation (flightId, clientId)
+    Gateway->>Reservation: Transmet la demande
+
+    Reservation->>Flight: Vérifie l'existence du vol
+    Flight-->>Reservation: Retourne les infos du vol
+
+    Reservation->>ClientS: Vérifie l'existence du client
+    ClientS-->>Reservation: Retourne les infos du client
+
+    Reservation->>Baggage: (Optionnel) Associe un bagage existant
+    Baggage-->>Reservation: Retourne le bagage
+
+    Reservation->>Reservation: Crée une nouvelle réservation
+    Reservation-->>Gateway: Retourne la réservation créée
+    Gateway-->>Client: Confirme la réservation
