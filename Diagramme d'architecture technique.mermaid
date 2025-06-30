@@ -1,0 +1,73 @@
+
+graph TD
+    subgraph Frontend
+        Postman[Postman / Client Web]
+    end
+
+    subgraph Gateway
+        GW[Spring Cloud Gateway]
+    end
+
+    subgraph Discovery_Config
+        DISC[Eureka Discovery Server]
+        CONFIG[Spring Cloud Config Server]
+    end
+
+    subgraph Services
+        CLIENT[Client Service]
+        RESERVATION[Reservation Service]
+        FLIGHT[Flight Service]
+        CHECKIN[Check-in Service]
+        BOARDING[Boarding Service]
+        SEATING[Seating Service]
+        BAGGAGE[Baggage Service]
+        INVENTORY[Inventory Service]
+        PRICING[Pricing Service]
+        PAYMENT[Payment Service]
+        ACCOUNTING[Accounting Service]
+        DATAREF[Data-References Service]
+        SEARCH[Search Service]
+    end
+
+    Postman --> GW
+    GW --> CLIENT
+    GW --> RESERVATION
+    GW --> FLIGHT
+    GW --> CHECKIN
+    GW --> BOARDING
+    GW --> SEATING
+    GW --> BAGGAGE
+    GW --> INVENTORY
+    GW --> PRICING
+    GW --> PAYMENT
+    GW --> ACCOUNTING
+    GW --> DATAREF
+    GW --> SEARCH
+
+    CLIENT -->|Feign| RESERVATION
+    RESERVATION -->|Feign| FLIGHT
+    RESERVATION -->|Feign| CLIENT
+    RESERVATION -->|Feign| BAGGAGE
+
+    CHECKIN -->|Feign| RESERVATION
+    CHECKIN -->|Feign| SEATING
+    CHECKIN -->|Feign| BOARDING
+
+    BOARDING -->|DB| DB_BOARDING[(DB Boarding)]
+    SEATING -->|Feign| INVENTORY
+    INVENTORY -->|Feign| FLIGHT
+
+    PRICING -->|Feign| FLIGHT
+    PAYMENT -->|Feign| RESERVATION
+    PAYMENT -->|Feign| PRICING
+    ACCOUNTING -->|Feign| PAYMENT
+    ACCOUNTING -->|Feign| RESERVATION
+    ACCOUNTING -->|Feign| FLIGHT
+
+    SEARCH -->|Feign| FLIGHT
+
+    GW --> DISC
+    GW --> CONFIG
+    all_services((Tous les services)) --> DISC
+    all_services --> CONFIG
+
