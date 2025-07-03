@@ -1,9 +1,10 @@
 sequenceDiagram
-    participant Client as Passager
+    participant Client as Client
     participant Gateway as API Gateway
     participant CheckIn as Check-In Service
     participant Reservation as Reservation Service
     participant Seating as Seating Service
+    participant Inventory as Inventory Service
     participant Boarding as Boarding Service
 
     Client->>Gateway: S'enregistre avec son ID de réservation
@@ -12,12 +13,14 @@ sequenceDiagram
     CheckIn->>Reservation: Vérifie la réservation
     Reservation-->>CheckIn: Détails de la réservation
 
-    CheckIn->>Seating: Attribue un siège (via flightId)
-    Seating-->>CheckIn: Numéro de siège
+    CheckIn->>Seating: Demande d'attribution de siège (flightId, seatNumber)
+    Seating->>Inventory: Vérifie disponibilité / Met à jour l'inventaire
+    Inventory-->>Seating: Confirmation de mise à jour
+    Seating-->>CheckIn: Numéro de siège attribué
 
     CheckIn->>Boarding: Génère la carte d'embarquement
-    Boarding-->>CheckIn: Boarding pass avec ID et numéro de siège
+    Boarding-->>CheckIn: Boarding pass (ID, seatNumber)
 
-    CheckIn->>CheckIn: Sauvegarde complète de l’enregistrement
-    CheckIn-->>Gateway: Confirme le check-in
-    Gateway-->>Client: Délivre le boarding pass
+    CheckIn->>CheckIn: Sauvegarde des infos check-in
+    CheckIn-->>Gateway: Confirmation check-in
+    Gateway-->>Client: Boarding pass final
