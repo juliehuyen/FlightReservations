@@ -13,7 +13,7 @@ We implemented several core services using **Spring Boot**, **Spring Cloud**, **
 - Passenger check-in
 - Ticket generation and boarding pass issuance
 
-Each domain (booking, check-in, inventory, etc.) is handled by a dedicated microservice communicating asynchronously or synchronously with others.
+Each domain (booking, check-in, inventory, etc.) is handled by a dedicated microservice communicating with others.
 
 ## 🧱 Architecture
 
@@ -28,20 +28,19 @@ The system consists of the following microservices:
 - **and more...**
   
 
-The solution includes a **discovery server**, **API gateway**, and **configuration server**, and supports **service registration, load balancing**, and **event-driven communication**.
+The solution includes a **discovery server**, **API gateway**, and **configuration server**.
 
 ## ⚙️ Tech Stack
 
 - Java 17
 - Spring Boot / Spring Cloud
-- Eureka, Feign, RabbitMQ, Spring Cloud Stream
+- Eureka, Feign, Config Server
 - H2 / PostgreSQL
 - Docker (for testing) # TODO
 
 ## 🚀 Main Features
 
 - RESTful APIs for all services
-- Asynchronous seat booking via event bus (Kafka/RabbitMQ) # TODO
 - WireMock and JUnit tests for validation
 - Swagger / AsyncAPI documentation # TODO
 
