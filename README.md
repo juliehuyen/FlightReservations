@@ -25,6 +25,7 @@ The system consists of the following microservices:
 - **Boarding Service** – Boarding validation and flight log update
 - **Seat Service** – Real-time seat locking and conflict handling
 - **Notification / Event Bus** – RabbitMQ-based message handling
+and more...
   
 
 The solution includes a **discovery server**, **API gateway**, and **configuration server**, and supports **service registration, load balancing**, and **event-driven communication**.
